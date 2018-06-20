@@ -1,0 +1,19 @@
+<% include ../partials/header %>
+<h1>Add New Course</h1>
+<% var coursePostURL = ("/user/"+ user._id + "/course") %>
+<% var assignmentPostURL = ("/user/"+ user._id + "/course/assignment") %>
+<form method = "POST" id = "courseForm" action = <%=coursePostURL%> > </form>
+<form method="POST" id="assignmentForm" action = <%=assignmentPostURL%> > </form>
+
+<input type = "text" name = "course[name]" placeholder = "name, i.e. CS2150" form = "courseForm"><br>
+<div class="form-group">
+    <label for="name">Name: </label><input id="name" class="newFormElement" type='text' name='assignment[name]' placeholder='AssignmentName i.e homework' form = "assignmentForm">
+    <label for="weight">Weight: </label><input type='text' id = "weight" class="newFormElement" name='assignment[weight]' placeholder='weight in percent' form = "assignmentForm">
+</div>
+<button id="newAssignmentBtn" form="assignmentForm">Add new Assignment</button>
+<ul id="assignment-list">
+        
+</ul>
+<button form = "courseForm">Add</button>
+<script src="/scripts/ajaxNew.js"></script>
+<% include ../partials/footer %>

@@ -1,0 +1,23 @@
+<%include ../partials/header%>
+<h1><%=course.name%></h1>
+<% var editUrl = ("/user/"+ course.student._id + "/course/" + course._id  + "/edit") %>
+<% var deleteUrl = ("/user/"+ course.student._id + "/course/" + course._id + "?_method=DELETE") %>
+<a href= <%= editUrl %>>Edit Assignment</a>
+<form method="POST" action="<%=deleteUrl%>">
+    <button>Delete</button>
+</form>
+
+    <table>
+        <tr>
+            <th>Assignment Name</th>
+            <th>Weight</th>
+        </tr>
+        <% course.Assignments.forEach(function(assignment){%>
+            <tr>
+               <td><%=assignment.name%></td> 
+               <td><%=assignment.weight%></td> 
+            </tr>    
+        <% }) %> 
+        </tr>
+    </table>
+<%include ../partials/footer%>

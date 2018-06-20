@@ -1,0 +1,12 @@
+<% include ../partials/header %>
+<h1>Profile</h1>
+<p><label>Userame: </label><%=user.username%></p>
+<% var newCourseUrl = "/user/"+user._id+"/course/new" %>
+
+<a href=<%=newCourseUrl%>>Add New Course</a>
+<ul>
+    <% user.courses.forEach(function(course){ %>
+        <li><a href="/user/<%=user._id%>/course/<%=course._id%>"><%=course.name %></a></li>
+    <% }) %>
+</ul>
+<% include ../partials/footer %>
