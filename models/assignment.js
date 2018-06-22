@@ -6,9 +6,10 @@ var AssignmentSchema = new mongoose.Schema({
     grade: String,
     subassignments:[
             {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: "Subassignment"
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Subassignment" 
             }
+            
         ]
 });
 

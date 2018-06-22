@@ -1,23 +1,72 @@
 <%include ../partials/header%>
 <h1><%=course.name%></h1>
+
 <% var editUrl = ("/user/"+ course.student._id + "/course/" + course._id  + "/edit") %>
 <% var deleteUrl = ("/user/"+ course.student._id + "/course/" + course._id + "?_method=DELETE") %>
 <a href= <%= editUrl %>>Edit Assignment</a>
+
+<!-- Allow course deletion -->
 <form method="POST" action="<%=deleteUrl%>">
     <button>Delete</button>
 </form>
 
-    <table>
-        <tr>
-            <th>Assignment Name</th>
-            <th>Weight</th>
-        </tr>
-        <% course.Assignments.forEach(function(assignment){%>
-            <tr>
-               <td><%=assignment.name%></td> 
-               <td><%=assignment.weight%></td> 
-            </tr>    
-        <% }) %> 
-        </tr>
-    </table>
+
+
+<% course.Assignments.forEach(function(assignment){%>
+    <div class="assignmentDiv">
+        <!-- For each assignment create a table that displays the subassignments -->
+        <table class=" table-bordered subassignmentTable table table-striped">
+            <!-- The heading with the assignment information -->
+            <thead class="thead-dark">
+                <tr>
+                    <th class="assignmentName"><%=assignment.name%></th> 
+                    <th class = "grade"><%=assignment.grade%></th> 
+                    <th> / </th>
+                    <th class="weight"><%=assignment.weight%></th>
+                    <th><button class="newSubassignmentBtn">Add new subassignment</button></th>
+                </tr>
+            </thead>
+            
+            
+            <tbody class="subassignmentBody">
+                <% assignment.subassignments.forEach(function(subassignment){ %>
+                    <!-- For each subassignment display info -->
+                    <% var SubassignmentPutUrl = ("/user/"+ course.student._id + "/course/" + course._id  + "/assignment/" + assignment._id + "/subassignment/"+subassignment._id) %>
+                    <% var SubassignmentDeleteUrl = ("/user/"+ course.student._id + "/course/" + course._id  + "/assignment/" + assignment._id + "/subassignment/"+subassignment._id) %>
+                    <tr data-actionUrl = "<%= SubassignmentPutUrl%>" data-subassignmentId = "<%= subassignment._id %>" >
+                       <td class="name"><%= subassignment.name%></td> 
+                       <td class="achieved"><%= subassignment.achieved%></td> 
+                       <td> / </td>
+                       <td class = "total"><%= subassignment.total%></td> 
+                       <td>
+                           <button class="editBtn"> Edit </button>
+                           <form class="deleteBtn" action="<%= SubassignmentDeleteUrl%>" method="POST" > 
+                                <button>Delete</button>
+                            </form>
+                        </td>
+                    </tr>    
+                    <% }) %> 
+            </tbody>
+            
+            </tr>
+        </table>
+        
+        <!-- A form that allows subassignment creation -->
+        <% var SubassignmentPostUrl = ("/user/"+ course.student._id + "/course/" + course._id  + "/assignment/" + assignment._id + "/subassignment/") %>
+        <% var SubassignmentName = assignment.name + " "+ assignment.subassignments.length; %>
+        <form class="newSubassignmentForm" method="POST" action=<%= SubassignmentPostUrl%>>
+            <table class="">
+                <tr>
+                    <td><input type='text' name="subassignment[name]" value=<%=SubassignmentName%> </td>
+                    <td><input type='text' name="subassignment[achieved]" </td>
+                    <td>/</td>
+                    <td><input type='text' name="subassignment[total]" </td>
+                    <td><button> Add</button></td>
+                </tr>
+            </table>
+        </form>
+    </div>
+<% }) %>
+
+<script src="/scripts/ajaxShow.js"></script>
 <%include ../partials/footer%>

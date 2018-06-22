@@ -4,6 +4,7 @@ var User = require("../models/user");
 var Course = require("../models/course");
 var middleware =require("../middleware");
 var Assignment = require("../models/assignment");
+var Subassignment = require("../models/subassignment");
 
 //CREATE assignment route
 router.post("/", middleware.checkCorrectUser, function(req, res) {
@@ -55,6 +56,9 @@ router.delete("/:assignmentId", middleware.checkCorrectUser, function(req, res){
             res.redirect("/user/"+ req.params.userid + "/course/" + req.params.courseid  + "/edit");
         }
         else{
+            deleted.subassignments.forEach(function(subassignment){
+                Subassignment.findByIdAndRemove(subassignment);
+            });
             Course.findByIdAndUpdate(req.params.courseid, {$pull: {Assignments: deleted._id}}, {new: true}, function(err, updated) {
                 if(err){
                     //if there's an error, go back to editing

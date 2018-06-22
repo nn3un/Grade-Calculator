@@ -12,7 +12,8 @@ methodOverride=require("method-override");
 var indexRoutes = require("./routes/index"),
     userRoutes  = require("./routes/user"),
     courseRoutes= require("./routes/course"),
-    assignmentRoutes = require("./routes/assignment");
+    assignmentRoutes = require("./routes/assignment"),
+    subassignmentRoutes = require("./routes/subassignment");
     
 
 mongoose.connect("mongodb://localhost/gradeCalc1");
@@ -44,6 +45,7 @@ app.use("/", indexRoutes);
 app.use("/user/:userid", userRoutes);
 app.use("/user/:userid/course", courseRoutes);
 app.use("/user/:userid/course/:courseid/assignment", assignmentRoutes);
+app.use("/user/:userid/course/:courseid/assignment/:assignmentid/subassignment", subassignmentRoutes);
 
 app.listen(process.env.PORT, process.env.IP, function(){
     console.log("Sever has started....");

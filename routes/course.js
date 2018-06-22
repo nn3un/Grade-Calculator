@@ -4,7 +4,7 @@ var User = require("../models/user");
 var Course = require("../models/course");
 var middleware =require("../middleware");
 var Assignment = require("../models/assignment");
-
+var Subassignment = require("../models/subassignment");
 
 //NEW course route
 router.get("/new", middleware.checkCorrectUser, function(req, res){
@@ -62,7 +62,7 @@ router.post("/", middleware.checkCorrectUser, function(req, res){
 
 //SHOW course route
 router.get("/:courseid", middleware.checkCorrectUser, function(req, res){
-    Course.findById(req.params.courseid).populate('Assignments').exec(function(err, foundCourse) {
+    Course.findById(req.params.courseid).populate({path: 'Assignments', populate: {path: 'subassignments'}}).exec(function(err, foundCourse) {
         if(err){
             req.flash("error", err.message);
             res.redirect("/user/"+req.params.userid);
@@ -107,6 +107,18 @@ router.delete("/:courseId", middleware.checkCorrectUser, function(req, res){
             res.redirect("/user/"+req.params.userid+"/course/"+req.params.courseId);
         }
         else{
+            deleted.Assignments.forEach(function(assignment){
+                Assignment.findByIdAndRemove(assignment._id, function(err, deletedAssignment) {
+                    if(err){
+                        console.log("Assignment Deletion failed");
+                    }
+                    else{
+                        deletedAssignment.subassignments.forEach(function(subassignment){
+                            Subassignment.findByIdAndRemove(subassignment);
+                        });
+                    }
+                });
+            });
             User.findByIdAndUpdate(req.params.userid, {$pull: {courses: deleted._id}}, {new: true}, function(err, updated) {
                 if(err){
                     //if there's an error, go back to editing
@@ -163,6 +175,6 @@ router.delete("/assignment/:assignmentId", middleware.checkCorrectUser, function
         }
     });
 });
-
         
+
 module.exports = router;
