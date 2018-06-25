@@ -56,11 +56,12 @@ $("body").on("submit", ".newSubassignmentForm", function(e){
     var actionUrl = $(this).attr("action");
     var newSubassignmentForm = $(this);
     var newGrade = parseFloat(reCalculateGrade(tbody, weight));
-    var oldGrade = parseFloat(gradeClass.text())
+    var oldGrade = parseFloat(gradeClass.text());
+    gradeClass.text(newGrade);
     var oldCourseGrade = parseFloat($("#currentCourseGrade").text());
     var newCourseGrade = oldCourseGrade - oldGrade + newGrade;
-    $.post(actionUrl, subassignment, function(data){
-        debugger
+    var dataToSend = subassignment + "&currentGrade=" + newCourseGrade;
+    $.post(actionUrl, dataToSend, function(data){
         var SubassignmentPutUrl = actionUrl+data._id;
         var SubassignmentDeleteUrl = actionUrl+data._id;
         tbody.append(
@@ -74,7 +75,11 @@ $("body").on("submit", ".newSubassignmentForm", function(e){
             </tr>    
             `
         );
+        var newGrade = parseFloat(reCalculateGrade(tbody, weight));
+        var oldGrade = parseFloat(gradeClass.text());
         gradeClass.text(newGrade);
+        var oldCourseGrade = parseFloat($("#currentCourseGrade").text());
+        var newCourseGrade = oldCourseGrade - oldGrade + newGrade;
         $("#currentCourseGrade").text(newCourseGrade);
         newSubassignmentForm.hide();
         

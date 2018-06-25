@@ -25,7 +25,6 @@ router.post("/", middleware.checkCorrectUser, function(req, res) {
                 else {
                     foundAssignment.subassignments.push(newSubassignment);
                     foundAssignment.save();
-                    /*
                     Course.findById(req.params.courseid, function(err, foundCourse){
                         if(err){
                             req.flash("error", "Couldn't find Parent Course");
@@ -34,10 +33,10 @@ router.post("/", middleware.checkCorrectUser, function(req, res) {
                         else{
                             foundCourse.currentGrade = req.body.currentGrade;
                             foundCourse.save();
+                            res.json(newSubassignment);
                             
                         }
-                    })*/
-                    res.json(newSubassignment);
+                    })
                     //send the course back to ajax so that they can use the information to update the view
                     
                 }
