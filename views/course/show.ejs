@@ -1,9 +1,13 @@
 <%include ../partials/header%>
 <h1><%=course.name%></h1>
+<h2>Current Grade: <span id="currentCourseGrade"></span>% </h2>
 
 <% var editUrl = ("/user/"+ course.student._id + "/course/" + course._id  + "/edit") %>
 <% var deleteUrl = ("/user/"+ course.student._id + "/course/" + course._id + "?_method=DELETE") %>
-<a href= <%= editUrl %>>Edit Assignment</a>
+<% var ifElseUrl = ("/user/"+ course.student._id + "/course/" + course._id + "/ifelse") %>
+
+<a class="btn btn-primary" href= <%= editUrl %>>Edit Assignment</a>
+<a class="btn btn-primary" href= <%= ifElseUrl %>>Create if else situation</a>
 
 <!-- Allow course deletion -->
 <form method="POST" action="<%=deleteUrl%>">

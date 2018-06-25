@@ -9,7 +9,7 @@ $("#assignmentForm").submit(function(e){
         var i = $("#assignment-list li").length;
         $("#assignment-list").append
         (
-           `
+            `
             <li class="assignmentListItem">
                 <form class="editForm" action="./assignment/${data._id}?_method=PUT" method="POST">
                     <label for="name">Name: </label>

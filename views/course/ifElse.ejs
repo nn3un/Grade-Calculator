@@ -1,0 +1,55 @@
+<%include ../partials/header%>
+<h1><%=course.name%></h1>
+<h2>Current Grade: <span id="currentCourseGrade"></span>%</h2>
+
+
+<% course.Assignments.forEach(function(assignment){%>
+    <div class="assignmentDiv">
+        <!-- For each assignment create a table that displays the subassignments -->
+        <table class=" table-bordered subassignmentTable table table-striped">
+            <!-- The heading with the assignment information -->
+            <thead class="thead-dark">
+                <tr>
+                    <th class="assignmentName"> <%=assignment.name%> </th> 
+                    <th><input class = "grade" value="<%=assignment.grade%>"></th> 
+                    <th> / </th>
+                    <th class="weight"> <%=assignment.weight%> </th>
+                    <th><button class="newSubassignmentBtn">Add new subassignment</button></th>
+                </tr>
+            </thead>
+            
+            <tbody class="subassignmentBody">
+                <% assignment.subassignments.forEach(function(subassignment){ %>
+                    <!-- For each subassignment display info -->
+                    <tr>
+                        <td><input class="name" value="<%= subassignment.name%>" ></td> 
+                        <td><input class="achieved" value="<%= subassignment.achieved%>" ></td> 
+                        <td> / </td>
+                        <td><input class="total" value="<%= subassignment.total%>" ></td> 
+                        <td>
+                            <form class="deleteBtn" > 
+                                <button>Delete</button>
+                            </form>
+                        </td>
+                    </tr>    
+                <% }) %> 
+            </tbody>
+        </table>
+        
+        <!-- A form that allows subassignment creation -->
+        <form class="newForm">
+            <table class="table-bordered table table-striped">
+                <tr>
+                    <td><input type='text' class="name"  value= "<%=assignment.name%>"> </td>
+                    <td><input type='text' class="achieved"> </td>
+                    <td>/</td>
+                    <td><input type='text' class='total'> </td>
+                    <td><button>Add</button></td>
+                </tr>
+            </table>
+        </form>
+    </div>
+<% }) %>
+
+<script src="/scripts/ajaxIfElse.js"></script>
+<%include ../partials/footer%>

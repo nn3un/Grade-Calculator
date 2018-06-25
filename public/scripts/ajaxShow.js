@@ -11,58 +11,78 @@ function reCalculateGrade(tbody, weight){
         var totalNum = parseFloat($(rows[i]).find("td.total").first().text(), 10);
         total += totalNum;
     }
-    return (achieved*weight/total).toFixed(3);
+    var grade = (achieved*weight/total).toFixed(3);
+    if(isNaN(grade)){
+        grade = weight;
+    }
+    return grade;
 }
 
 //Sets up the assignment grade
 $(document).ready(function(){
     var tables = $('body').find(".subassignmentTable");
+    var currentGrade = 0;
     for (var i = 0; i < tables.length; i++){
         var weight = parseInt($(tables[i]).children("thead").first().find(".weight").first().text(), 10);
         var tbody = $(tables[i]).children("tbody");
         var achieved = reCalculateGrade(tbody, weight);
+        if (isNaN(achieved)){
+            achieved = 0;
+        }
         var gradeClass = $(tables[i]).children("thead").first().find(".grade").first();
         gradeClass.text(achieved);
+        currentGrade += parseFloat(achieved, 10);
     }
+    $('#currentCourseGrade').text(currentGrade);
 });
 
 
-
-
+//-------------------------------------------Adding New Subassignment-----------------------------------------------------------
 //Allows the new Assignment form to show up
 $("body").on("click", ".newSubassignmentBtn", function(){
-    $(this).parent().parent().parent().parent().siblings(".newSubassignmentForm").toggle();
+    var newSubassignmentForm = $(this).parent().parent().parent().parent().siblings(".newSubassignmentForm");
+    if(newSubassignmentForm.css('display') == 'none'){
+        newSubassignmentForm.show();
+    }
 });
 
 //Adds the new subassignment and adds it to the table
 $("body").on("submit", ".newSubassignmentForm", function(e){
     e.preventDefault();
-    var tbody = $(this).siblings(".subassignmentTable").children("tbody");
-    var weight = parseInt($(this).siblings(".subassignmentTable").children("thead").first().find(".weight").first().text(), 10);
+    var tbody = $(this).siblings(".subassignmentTable").children("tbody").first();
+    var weight = parseFloat($(this).siblings(".subassignmentTable").children("thead").first().find(".weight").first().text());
     var gradeClass = $(this).siblings(".subassignmentTable").children("thead").first().find(".grade").first();
-    var actionUrl = $(this).attr("action");
     var subassignment = $(this).serialize();
+    var actionUrl = $(this).attr("action");
+    var newSubassignmentForm = $(this);
+    var newGrade = parseFloat(reCalculateGrade(tbody, weight));
+    var oldGrade = parseFloat(gradeClass.text())
+    var oldCourseGrade = parseFloat($("#currentCourseGrade").text());
+    var newCourseGrade = oldCourseGrade - oldGrade + newGrade;
     $.post(actionUrl, subassignment, function(data){
+        debugger
         var SubassignmentPutUrl = actionUrl+data._id;
         var SubassignmentDeleteUrl = actionUrl+data._id;
         tbody.append(
             `
             <tr data-actionUrl = "${ SubassignmentPutUrl }" data-subassignmentId = "${data._id}" >
-               <td>${data.name}</td> 
+               <td class='name'>${data.name}</td> 
                <td class="achieved">${data.achieved}</td> 
                <td> / </td>
                <td class="total">${data.total}</td> 
                <td><button class="editBtn">Edit</button><form class="deleteBtn" action="${ SubassignmentDeleteUrl }" method="POST" > <button>Delete</button></form></td>
             </tr>    
             `
-            );
-        var achieved = reCalculateGrade(tbody, weight);
-        gradeClass.text(achieved);
+        );
+        gradeClass.text(newGrade);
+        $("#currentCourseGrade").text(newCourseGrade);
+        newSubassignmentForm.hide();
+        
         }
     );
 });
 
-
+//------------------------------------------------Editing existing subassignment------------------------------------------------------------------------
 
 //Shows the edit form when clicked
 $('body').on("click", ".editBtn", function(){
@@ -104,25 +124,31 @@ $("body").on("submit", ".editSubassignmentForm", function(e){
                <td> / </td>
                <td class="total">${data.total}</td> 
                <td>
-                <button class="editBtn">Edit</button>
-                <form class="deleteBtn" action="${ actionUrl }" method="POST" > 
-                    <button>Delete</button>
-                </form>
+                    <button class="editBtn">Edit</button>
+                    <form class="deleteBtn" action="${ actionUrl }" method="POST" > 
+                        <button>Delete</button>
+                    </form>
                 </td>
             `
             );
-            var achieved = reCalculateGrade(tbody, weight);
-            gradeClass.text(achieved);
+            var newGrade = parseFloat(reCalculateGrade(tbody, weight), 10);
+            var oldGrade = parseFloat(gradeClass.text(), 10);
+            gradeClass.text(newGrade);
+            var oldCourseGrade = parseFloat($("#currentCourseGrade").text(), 10);
+            var newCourseGrade = oldCourseGrade - oldGrade + newGrade;
+            $("#currentCourseGrade").text(newCourseGrade);
         }
         });
 });
 
+
+//----------------------------------Deleting existing subassignment------------------------------------------
 $('body').on('submit', ".deleteBtn", function(e){
     e.preventDefault();
     var actionUrl = $(this).attr('action');
     var tr = $(this).parent().parent();
     var tbody = tr.parent();
-    var weight = parseInt(tbody.siblings("thead").first().find(".weight").first().text(), 10);
+    var weight = parseFloat(tbody.siblings("thead").first().find(".weight").first().text(), 10);
     var gradeClass = tbody.siblings("thead").first().find(".grade").first();
     var $deletedItem = $(this).parent().parent();
     $.ajax({
@@ -131,10 +157,13 @@ $('body').on('submit', ".deleteBtn", function(e){
         type: "DELETE",
         success: function(data){
             this.deletedItem.remove();
-            var achieved = reCalculateGrade(tbody, weight);
-            gradeClass.text(achieved);
+            var newGrade = parseFloat(reCalculateGrade(tbody, weight));
+            var oldGrade = parseFloat(gradeClass.text(), 10);
+            gradeClass.text(newGrade);
+            var oldCourseGrade = parseFloat($("#currentCourseGrade").text(), 10);
+            var newCourseGrade = oldCourseGrade - oldGrade + newGrade;
+            $("#currentCourseGrade").text(newCourseGrade);
         }
-        
     }
     );
 });

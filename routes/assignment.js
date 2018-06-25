@@ -52,12 +52,15 @@ router.delete("/:assignmentId", middleware.checkCorrectUser, function(req, res){
         if(err){
             //if error stay at current page
             req.flash("error", "Error Deleting");
-            //TODO: better redirection
             res.redirect("/user/"+ req.params.userid + "/course/" + req.params.courseid  + "/edit");
         }
         else{
             deleted.subassignments.forEach(function(subassignment){
-                Subassignment.findByIdAndRemove(subassignment);
+                Subassignment.findByIdAndRemove(subassignment._id, function(err, deletedSubassignment){
+                    if(err){
+                        console.log(err);
+                    }
+                });
             });
             Course.findByIdAndUpdate(req.params.courseid, {$pull: {Assignments: deleted._id}}, {new: true}, function(err, updated) {
                 if(err){

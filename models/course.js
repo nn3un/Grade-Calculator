@@ -7,6 +7,7 @@ var CourseSchema = new mongoose.Schema({
             ref: "User"
         },
     name: String,
+    currentGrade: String,
     Assignments: [
             {
                 type: mongoose.Schema.Types.ObjectId,

@@ -1,5 +1,7 @@
 /* global $ */
 
+
+//add new assignment
 $("#assignmentForm").submit(function(e){
     e.preventDefault();
     var assignment = $(this).serialize();
@@ -9,7 +11,6 @@ $("#assignmentForm").submit(function(e){
         (
            `
             <li class="assignmentListItem">
-                
                 <!-- The edit assignment form that shows up when you press the edit button -->
                 <form class="editForm" action="./assignment/${data._id}?_method=PUT"method="POST">
                     <label for="name">Name: </label>
@@ -43,6 +44,7 @@ $(document).ready(function() {
         var assignment = $(this).serialize();
         var actionUrl = $(this).attr('action');
         var $originialItem = $(this).parent(".assignmentListItem");
+        $(this).toggle();
         $.ajax({
             url: actionUrl,
             type: "PUT",
@@ -68,7 +70,6 @@ $(document).ready(function() {
                     </li>
                     `
                 );
-                $(this).toggle();
             }
         });
     });
