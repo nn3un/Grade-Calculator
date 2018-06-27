@@ -48,3 +48,22 @@ nav{
 .alert{
     background-color: #d8e5f3;
 }
+
+.newSubassignment{
+    background-color: #cceeff;
+}
+
+.added{
+    background-color: #ccff66;
+}
+
+td { position: relative; }
+
+
+.deleted{
+    text-decoration: line-through;
+}
+
+.deletedRow{
+    background-color: #ff9999;
+}

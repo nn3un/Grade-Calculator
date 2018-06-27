@@ -9,7 +9,7 @@ var Subassignment = require("../models/subassignment");
 //CREATE subassignment route
 router.post("/", middleware.checkCorrectUser, function(req, res) {
     var subassignment = req.body.subassignment;
-    Subassignment.create(subassignment, function(err, newSubassignment) {
+    Subassignment.create(subassignment, function(err, data) {
         if (err) {
             req.flash("error", "Couldn't add subassignment, please try again");
             res.redirect("/user/" + req.params.userid + "/course/" + req.params.courseid);
@@ -23,23 +23,14 @@ router.post("/", middleware.checkCorrectUser, function(req, res) {
                     res.redirect("/user/" + req.params.userid + "/course/" + req.params.courseid);
                 }
                 else {
-                    foundAssignment.subassignments.push(newSubassignment);
+                    foundAssignment.subassignments.push(data);
                     foundAssignment.save();
-                    Course.findById(req.params.courseid, function(err, foundCourse){
-                        if(err){
-                            req.flash("error", "Couldn't find Parent Course");
-                            res.redirect("/user/" + req.params.userid);
-                        }
-                        else{
-                            foundCourse.currentGrade = req.body.currentGrade;
-                            foundCourse.save();
-                            res.json(newSubassignment);
-                            
-                        }
-                    })
+                    data.url = "/user/" + req.params.userid + "/course/" + req.params.courseid + "?_method=PUT";
+                    res.json(data);
+                    }
                     //send the course back to ajax so that they can use the information to update the view
                     
-                }
+                
             });
         }
     });
@@ -53,7 +44,18 @@ router.put("/:subassignmentId", middleware.checkCorrectUser, function(req, res) 
             res.redirect("/user/" + req.params.userid + "/course/new");
         }
         else {
-            res.json(updated);
+            Course.findById(req.params.courseid, function(err, foundCourse){
+                if(err){
+                    req.flash("error", "Couldn't find Parent Course");
+                    res.redirect("/user/" + req.params.userid);
+                }
+                else{
+                    foundCourse.currentGrade = req.body.currentGrade;
+                    foundCourse.save();
+                    res.json(updated);
+                    
+                }
+            });
         }
     });
 });

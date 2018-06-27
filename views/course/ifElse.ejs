@@ -6,7 +6,7 @@
 <% course.Assignments.forEach(function(assignment){%>
     <div class="assignmentDiv">
         <!-- For each assignment create a table that displays the subassignments -->
-        <table class=" table-bordered subassignmentTable table table-striped">
+        <table class=" table-bordered subassignmentTable table">
             <!-- The heading with the assignment information -->
             <thead class="thead-dark">
                 <tr>
@@ -20,34 +20,26 @@
             
             <tbody class="subassignmentBody">
                 <% assignment.subassignments.forEach(function(subassignment){ %>
-                    <!-- For each subassignment display info -->
+                <!-- For each subassignment display info -->
                     <tr>
                         <td><input class="name" value="<%= subassignment.name%>" ></td> 
                         <td><input class="achieved" value="<%= subassignment.achieved%>" ></td> 
                         <td> / </td>
                         <td><input class="total" value="<%= subassignment.total%>" ></td> 
-                        <td>
-                            <form class="deleteBtn" > 
-                                <button>Delete</button>
-                            </form>
-                        </td>
+                        <td><button class="deleteSubassignmentBtn">Delete</button></td>
                     </tr>    
                 <% }) %> 
+                
+                <tr class="newSubassignment">
+                    <td><input type='text' class="newName"  value= "<%=assignment.name%>"> </td>
+                    <td><input type='text' class="newAchieved"> </td>
+                    <td>/</td>
+                    <td><input type='text' class='newTotal'> </td>
+                    <td><button class="addSubassignment">Add</button></td>
+                </tr>
             </tbody>
         </table>
         
-        <!-- A form that allows subassignment creation -->
-        <form class="newForm">
-            <table class="table-bordered table table-striped">
-                <tr>
-                    <td><input type='text' class="name"  value= "<%=assignment.name%>"> </td>
-                    <td><input type='text' class="achieved"> </td>
-                    <td>/</td>
-                    <td><input type='text' class='total'> </td>
-                    <td><button>Add</button></td>
-                </tr>
-            </table>
-        </form>
     </div>
 <% }) %>
 
