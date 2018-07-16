@@ -14,7 +14,7 @@ function reCalculateGrade(tbody, weight, newAchieved, newTotal){
     }
     var grade = (achieved*weight/total).toFixed(3);
     if(isNaN(grade)){
-        grade = weight;
+        grade = weight.toFixed(3);
     }
     return grade;
 }
@@ -67,7 +67,7 @@ $("body").on("submit", ".newSubassignmentForm", function(e){
                <td class="achieved">${data.achieved}</td> 
                <td> / </td>
                <td class="total">${data.total}</td> 
-               <td><button class="editBtn">Edit</button><form class="deleteBtn" action="${ SubassignmentDeleteUrl }" method="POST" > <button>Delete</button></form></td>
+               <td><button class="editBtn btn btn-outline-dark iconButton" style="display:inline"><i class="fas fa-edit"></i></button><form class="deleteBtn" action="${ SubassignmentDeleteUrl }" method="POST" style="display:inline"> <button class="btn btn-outline-dark iconButton"><i class="fas fa-trash"></i></button></form></td>
             </tr>    
             `
         );
@@ -75,8 +75,8 @@ $("body").on("submit", ".newSubassignmentForm", function(e){
         var oldGrade = parseFloat(gradeClass.text());
         var oldCourseGrade = parseFloat($("#currentCourseGrade").text());
         var newCourseGrade = oldCourseGrade - oldGrade + newGrade;
-        gradeClass.text(newGrade);
-        $("#currentCourseGrade").text(newCourseGrade);
+        gradeClass.text(newGrade.toFixed(3));
+        $("#currentCourseGrade").text(newCourseGrade.toFixed(3));
         newSubassignmentForm.hide();
             $.ajax({
                 url: data.url,
@@ -106,7 +106,7 @@ $('body').on("click", ".editBtn", function(){
         <td><input type='text' form='${subassignmentId}' name="subassignment[achieved]" value='${subassignmentAchieved}'></td>
         <td>/</td>
         <td><input type='text' form='${subassignmentId}' name="subassignment[total]" value='${subassignmentTotal}'></td>
-        <td><button form='${subassignmentId}'> Update </button><form id='${subassignmentId}' class="editSubassignmentForm" method="POST" action="${subassignmentPutUrl}"></form></td>
+        <td><button form='${subassignmentId}' class="btn btn-outline-dark iconButton"> <i class="fas fa-check"></i></button><form id='${subassignmentId}' class="editSubassignmentForm" method="POST" action="${subassignmentPutUrl}"></form></td>
         `
         );
 });
@@ -138,9 +138,9 @@ $("body").on("submit", ".editSubassignmentForm", function(e){
                <td> / </td>
                <td class="total">${data.total}</td> 
                <td>
-                    <button class="editBtn">Edit</button>
-                    <form class="deleteBtn" action="${ actionUrl }" method="POST" > 
-                        <button>Delete</button>
+                    <button class="editBtn btn btn-outline-dark iconButton"><i class="fas fa-edit"></i></button>
+                    <form class="deleteBtn" action="${ actionUrl }" method="POST" style="display:inline"> 
+                        <button class="btn btn-outline-dark iconButton"><i class="fas fa-trash"></i></button>
                     </form>
                 </td>
             `
@@ -171,7 +171,7 @@ $('body').on('submit', ".deleteBtn", function(e){
         type: "DELETE",
         success: function(data){
             this.deletedItem.remove();
-            var newGrade = parseFloat(reCalculateGrade(tbody, weight));
+            var newGrade = parseFloat(reCalculateGrade(tbody, weight, 0, 0));
             var oldGrade = parseFloat(gradeClass.text(), 10);
             gradeClass.text(newGrade);
             var oldCourseGrade = parseFloat($("#currentCourseGrade").text(), 10);

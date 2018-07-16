@@ -7,11 +7,11 @@
 <% var ifElseUrl = ("/user/"+ course.student._id + "/course/" + course._id + "/ifelse") %>
 
 <a class="btn btn-primary" href= <%= editUrl %>>Edit Assignment</a>
-<a class="btn btn-primary" href= <%= ifElseUrl %>>Create if else situation</a>
+<a class="btn btn-secondary" href= <%= ifElseUrl %>>Create if else situation</a>
 
 <!-- Allow course deletion -->
-<form method="POST" action="<%=deleteUrl%>">
-    <button>Delete</button>
+<form method="POST" action="<%=deleteUrl%>" style="display:inline-block">
+    <button class="btn btn-danger">Delete</button>
 </form>
 
 
@@ -27,7 +27,7 @@
                     <th class = "grade"><%=assignment.grade%></th> 
                     <th> / </th>
                     <th class="weight"><%=assignment.weight%></th>
-                    <th><button class="newSubassignmentBtn">Add new subassignment</button></th>
+                    <th><button class="newSubassignmentBtn btn btn-outline-light iconButton"><i class="fas fa-plus"></i></button></th>
                 </tr>
             </thead>
             
@@ -43,9 +43,9 @@
                        <td> / </td>
                        <td class = "total"><%= subassignment.total%></td> 
                        <td>
-                           <button class="editBtn"> Edit </button>
-                           <form class="deleteBtn" action="<%= SubassignmentDeleteUrl%>" method="POST" > 
-                                <button>Delete</button>
+                           <button class="editBtn btn btn-outline-dark iconButton"><i class="fas fa-edit"></i></button>
+                           <form class="deleteBtn" action="<%= SubassignmentDeleteUrl%>" method="POST" style="display:inline"> 
+                                <button class="btn btn-outline-dark iconButton"><i class="fas fa-trash"></i></button>
                             </form>
                         </td>
                     </tr>    
