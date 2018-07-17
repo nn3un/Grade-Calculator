@@ -5,7 +5,7 @@
 .subassignmentTable{
     table-layout: fixed;
     overflow: hidden;
-    width: 70%;
+    margin: 10px 0;
 }
 
 
@@ -66,9 +66,6 @@ nav{
     background-color: #cceeff;
 }
 
-.added{
-    background-color: #ccff66;
-}
 
 td { position: relative; }
 
@@ -87,4 +84,20 @@ td { position: relative; }
 
 .iconButton{
     border: none;
+}
+
+.newSubassignmentRow{
+    display: none;
+}
+
+input{
+    width: 100%;
+}
+
+.adjusted{
+    background-color: #af99f7;
+}
+
+.added{
+    background-color: #ccff66;
 }

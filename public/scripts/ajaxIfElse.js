@@ -6,7 +6,7 @@ function reCalculateGrade(tbody, weight){
     var total = 0;
     var rows = tbody.find("tr");
     for(var i = 0; i < rows.length-1; i++){
-        if (! $(rows[i]).hasClass('deletedRow')){
+        if (!$(rows[i]).hasClass('deletedRow')){
             var achievedNum = parseFloat($(rows[i]).find(".achieved").first().val(), 10);
             achieved += achievedNum;
             var totalNum = parseFloat($(rows[i]).find(".total").first().val(), 10);
@@ -46,7 +46,7 @@ function updateGrades(tbody){
     $("#currentCourseGrade").text(newCourseGrade.toFixed(3));
 }
 
-
+//--------------------------------------Set up ------------------------------------------//
 $(document).ready(function() {
     var tables = $('body').find(".subassignmentTable");
     var currentGrade = 0;
@@ -95,11 +95,7 @@ $(document).on("click", ".addSubassignment", function(){
             <td><input class="achieved" value="${achieved}" ></td> 
             <td> / </td>
             <td><input class="total" value="${total}" ></td> 
-            <td>
-                <form class="deleteBtn" > 
-                    <button>Delete</button>
-                </form>
-            </td>
+            <td><button class="deleteSubassignmentBtn btn btn-outline-dark iconButton"><i class="fas fa-times"></i></button></td>
         </tr>
         `);
     var tbody = $(this).parents('.subassignmentBody').first();
@@ -112,8 +108,13 @@ $(document).on("click", ".deleteSubassignmentBtn", function(){
     tr.find('input').addClass("deleted");
     $(this).removeClass('deleteSubassignmentBtn');
     $(this).addClass('reAddSubassignmentBtn');
-    $(this).html('Re-add');
-    var tbody = $(this).parents('.subassignmentBody').first();
+    if(tr.hasClass('adjusted') || tr.hasClass('added')){
+       $(this).parent().html("<button class='reAddSubassignmentBtn btn btn-outline-dark iconButton'><i class='fas fa-plus'></i></button><button class='removeSubassignmentBtn btn btn-outline-dark iconButton'><i class='fas fa-trash'></i></button>");
+    }
+    else{
+        $(this).parent().html("<button class='reAddSubassignmentBtn btn btn-outline-dark iconButton'><i class='fas fa-plus'></i></button>");
+    }
+    var tbody = tr.parent();
     updateGrades(tbody);
 });
 
@@ -123,9 +124,14 @@ $(document).on("click", ".reAddSubassignmentBtn", function(){
     tr.find('input').removeClass("deleted");
     $(this).removeClass('reAddSubassignmentBtn');
     $(this).addClass('deleteSubassignmentBtn');
-    $(this).html('Delete');
-    var tbody = $(this).parents('.subassignmentBody').first();
+    $(this).parent().html("<button class='deleteSubassignmentBtn btn btn-outline-dark iconButton'><i class='fas fa-times'></i></button>");
+    var tbody = tr.parent();
     updateGrades(tbody);
+});
+
+$(document).on("click", ".removeSubassignmentBtn", function(){
+    var tr = $(this).parent().parent();
+    tr.remove();
 });
 
 $(document).on('focusin', '.grade', function(){
@@ -145,12 +151,12 @@ $(document).on("change", ".grade", function(){
     var addSubassignmentRow = $(this).parents('.subassignmentTable').first().find('.newSubassignment').first();
     addSubassignmentRow.before(
         `
-        <tr class="added">
+        <tr class="adjusted">
             <td><input class="name" value="Adjustment Grade" ></td> 
             <td><input class="achieved" value="${achieved}" ></td> 
             <td> / </td>
             <td><input class="total" value='${total}' ></td> 
-            <td><button class="deleteSubassignmentBtn">Delete</button></td>
+            <td><button class="deleteSubassignmentBtn btn btn-outline-dark iconButton"><i class='fas fa-times'></i></button></td>
         </tr>
         `
     );

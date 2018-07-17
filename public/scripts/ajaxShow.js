@@ -7,10 +7,12 @@ function reCalculateGrade(tbody, weight, newAchieved, newTotal){
     var total = newTotal;
     var rows = tbody.find("tr");
     for(var i = 0; i < rows.length; i++){
-        var achievedNum = parseFloat($(rows[i]).find("td.achieved").first().text(), 10);
-        achieved += achievedNum;
-        var totalNum = parseFloat($(rows[i]).find("td.total").first().text(), 10);
-        total += totalNum;
+        if(!$(rows[i]).hasClass("newSubassignmentRow")){
+           var achievedNum = parseFloat($(rows[i]).find("td.achieved").first().text(), 10);
+            achieved += achievedNum;
+            var totalNum = parseFloat($(rows[i]).find("td.total").first().text(), 10);
+            total += totalNum; 
+        }
     }
     var grade = (achieved*weight/total).toFixed(3);
     if(isNaN(grade)){
@@ -24,7 +26,7 @@ $(document).ready(function(){
     var tables = $('body').find(".subassignmentTable");
     var currentGrade = 0;
     for (var i = 0; i < tables.length; i++){
-        var weight = parseInt($(tables[i]).children("thead").first().find(".weight").first().text(), 10);
+        var weight = parseFloat($(tables[i]).children("thead").first().find(".weight").first().text());
         var tbody = $(tables[i]).children("tbody");
         var achieved = reCalculateGrade(tbody, weight, 0, 0);
         if (isNaN(achieved)){
@@ -34,16 +36,17 @@ $(document).ready(function(){
         gradeClass.text(achieved);
         currentGrade += parseFloat(achieved);
     }
-    $('#currentCourseGrade').text(currentGrade);
+    $('#currentCourseGrade').text(currentGrade.toFixed(3));
 });
 
 
 //-------------------------------------------Adding New Subassignment-----------------------------------------------------------
 //Allows the new Assignment form to show up
 $("body").on("click", ".newSubassignmentBtn", function(){
-    var newSubassignmentForm = $(this).parent().parent().parent().parent().siblings(".newSubassignmentForm");
-    if(newSubassignmentForm.css('display') == 'none'){
-        newSubassignmentForm.show();
+    var newSubassignmentRow = $(this).parent().parent().parent().siblings('tbody').first().find('.newSubassignmentRow').first();
+    //var newSubassignmentForm = $(this).parent().parent().parent().parent().siblings(".newSubassignmentForm");
+    if(newSubassignmentRow.css('display') == 'none'){
+        newSubassignmentRow.show();
     }
 });
 
@@ -51,6 +54,7 @@ $("body").on("click", ".newSubassignmentBtn", function(){
 $("body").on("submit", ".newSubassignmentForm", function(e){
     e.preventDefault();
     var tbody = $(this).siblings(".subassignmentTable").children("tbody").first();
+    var newSubassignmentRow = tbody.find(".newSubassignmentRow").first();
     var weight = parseFloat($(this).siblings(".subassignmentTable").children("thead").first().find(".weight").first().text());
     var gradeClass = $(this).siblings(".subassignmentTable").children("thead").first().find(".grade").first();
     var subassignment = $(this).serialize();
@@ -60,7 +64,7 @@ $("body").on("submit", ".newSubassignmentForm", function(e){
         
         var SubassignmentPutUrl = actionUrl+data._id;
         var SubassignmentDeleteUrl = actionUrl+data._id;
-        tbody.append(
+        newSubassignmentRow.before(
             `
             <tr data-actionUrl = "${ SubassignmentPutUrl }" data-subassignmentId = "${data._id}" >
                <td class='name'>${data.name}</td> 
@@ -75,9 +79,9 @@ $("body").on("submit", ".newSubassignmentForm", function(e){
         var oldGrade = parseFloat(gradeClass.text());
         var oldCourseGrade = parseFloat($("#currentCourseGrade").text());
         var newCourseGrade = oldCourseGrade - oldGrade + newGrade;
-        gradeClass.text(newGrade.toFixed(3));
+        gradeClass.text(newGrade);
         $("#currentCourseGrade").text(newCourseGrade.toFixed(3));
-        newSubassignmentForm.hide();
+        newSubassignmentRow.hide();
             $.ajax({
                 url: data.url,
                 data: "course%5BcurrentGrade%5D=" + newCourseGrade,
@@ -147,10 +151,10 @@ $("body").on("submit", ".editSubassignmentForm", function(e){
             );
             var newGrade = parseFloat(reCalculateGrade(tbody, weight), 10);
             var oldGrade = parseFloat(gradeClass.text(), 10);
-            gradeClass.text(newGrade);
+            gradeClass.text(newGrade.toFixed(3));
             var oldCourseGrade = parseFloat($("#currentCourseGrade").text(), 10);
             var newCourseGrade = oldCourseGrade - oldGrade + newGrade;
-            $("#currentCourseGrade").text(newCourseGrade);
+            $("#currentCourseGrade").text(newCourseGrade.toFixed(3));
         }
         });
 });
@@ -173,10 +177,10 @@ $('body').on('submit', ".deleteBtn", function(e){
             this.deletedItem.remove();
             var newGrade = parseFloat(reCalculateGrade(tbody, weight, 0, 0));
             var oldGrade = parseFloat(gradeClass.text(), 10);
-            gradeClass.text(newGrade);
+            gradeClass.text(newGrade.toFixed(3));
             var oldCourseGrade = parseFloat($("#currentCourseGrade").text(), 10);
             var newCourseGrade = oldCourseGrade - oldGrade + newGrade;
-            $("#currentCourseGrade").text(newCourseGrade);
+            $("#currentCourseGrade").text(newCourseGrade.toFixed(3));
         }
     }
     );

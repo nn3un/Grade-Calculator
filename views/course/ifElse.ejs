@@ -4,7 +4,7 @@
 
 
 <% course.Assignments.forEach(function(assignment){%>
-    <div class="assignmentDiv">
+    <div class="assignmentDiv col-lg-9 col-md-10 col-sm-12">
         <!-- For each assignment create a table that displays the subassignments -->
         <table class=" table-bordered subassignmentTable table">
             <!-- The heading with the assignment information -->
@@ -14,7 +14,7 @@
                     <th><input class = "grade" value="<%=assignment.grade%>"></th> 
                     <th> / </th>
                     <th class="weight"> <%=assignment.weight%> </th>
-                    <th><button class="newSubassignmentBtn">Add new subassignment</button></th>
+                    <th><button class="newSubassignmentBtn btn btn-outline-light iconButton"><i class="fas fa-plus"></i></button></th>
                 </tr>
             </thead>
             
@@ -26,7 +26,7 @@
                         <td><input class="achieved" value="<%= subassignment.achieved%>" ></td> 
                         <td> / </td>
                         <td><input class="total" value="<%= subassignment.total%>" ></td> 
-                        <td><button class="deleteSubassignmentBtn">Delete</button></td>
+                        <td><button class="deleteSubassignmentBtn btn btn-outline-dark iconButton"><i class="fas fa-times"></i></button></td>
                     </tr>    
                 <% }) %> 
                 
