@@ -1,19 +1,26 @@
 <% include ../partials/header %>
-<h1>Add New Course</h1>
-<% var coursePostURL = ("/user/"+ user._id + "/course") %>
-<% var assignmentPostURL = ("/user/"+ user._id + "/course/assignment") %>
-<form method = "POST" id = "courseForm" action = <%=coursePostURL%> > </form>
-<form method="POST" id="assignmentForm" action = <%=assignmentPostURL%> > </form>
-
-<input type = "text" name = "course[name]" placeholder = "name, i.e. CS2150" form = "courseForm"><br>
-<div class="form-group">
-    <label for="name">Name: </label><input id="name" class="newFormElement" type='text' name='assignment[name]' placeholder='AssignmentName i.e homework' form = "assignmentForm">
-    <label for="weight">Weight: </label><input type='text' id = "weight" class="newFormElement" name='assignment[weight]' placeholder='weight in percent' form = "assignmentForm">
-</div>
-<button id="newAssignmentBtn" form="assignmentForm">Add new Assignment</button>
-<ul id="assignment-list">
+    <div style="width:50%; margin: auto">
+        <h1 >Add New Course</h1>
+        <% var coursePostURL = ("/user/"+ user._id + "/course") %>
+        <% var assignmentPostURL = ("/user/"+ user._id + "/course/assignment") %>
+        <form method = "POST" id = "courseForm" action = <%=coursePostURL%> > </form>
+        <form method="POST" id="assignmentForm" action = <%=assignmentPostURL%> > </form>
         
-</ul>
-<button form = "courseForm">Add</button>
+        <div class="form-group">
+            <label for="courseName">Name: </label>
+            <input type = "text" class="form-control" id="courseName" name = "course[name]" placeholder = "DEPT 0000" form = "courseForm"><br>
+        </div>
+        <h4>Current Assignments</h4>
+        <ul id="assignment-list" class="list-group">
+        </ul>
+        <div class="form-group border rounded p-3">
+            <label for="name">Assignment Name: </label><input id="name" class="newFormElement form-control" type='text' name='assignment[name]' placeholder='Homework' form = "assignmentForm">
+            <label for="weight">Assignment Weight: </label><input type='text' id = "weight" class="newFormElement form-control" name='assignment[weight]' placeholder='weight in percent' form = "assignmentForm">
+            <button id="newAssignmentBtn" class=" btn btn-secondary" form="assignmentForm">Add new assignment</button>
+        </div>
+        
+        <button class="btn btn-secondary" form = "courseForm">Add</button> 
+    </div>
+
 <script src="/scripts/ajaxNew.js"></script>
 <% include ../partials/footer %>

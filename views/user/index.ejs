@@ -1,12 +1,21 @@
 <% include ../partials/header %>
-<h1>Profile</h1>
-<p><label>Userame: </label><%=user.username%></p>
+
+<h1 class="display-4">Your Courses</h1>
 <% var newCourseUrl = "/user/"+user._id+"/course/new" %>
 
-<a href=<%=newCourseUrl%>>Add New Course</a>
-<ul>
+
+<div class="row">
     <% user.courses.forEach(function(course){ %>
-        <li><a href="/user/<%=user._id%>/course/<%=course._id%>"><%=course.name %></a></li>
-    <% }) %>
-</ul>
+    <div class=" card col-lg-4 col-md-6" style="display:inline">
+        <div class='card-header text-center'>
+            <a href="/user/<%=user._id%>/course/<%=course._id%>"><%=course.name %></a>
+        </div>
+        <div class="courses card-body" data-grade=<%=course.currentGrade%>></div>
+    </div>
+<% }) %>
+</div>
+<a class="btn btn-primary" id="newCourse" href=<%=newCourseUrl%>>Add New Course</a>
+
+<script src="/scripts/radialprogress.js"></script>
+<script src="/scripts/index.js"></script>
 <% include ../partials/footer %>

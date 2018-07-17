@@ -90,7 +90,7 @@ td { position: relative; }
     display: none;
 }
 
-input{
+.subassignmentTable>input{
     width: 100%;
 }
 
@@ -100,4 +100,24 @@ input{
 
 .added{
     background-color: #ccff66;
+}
+
+#newCourse{
+    margin: auto;
+    margin-top: 20px;
+    display: block;
+    font-size: 30px;
+}
+
+.courses{
+    margin: auto;
+    display: block;
+}
+
+.card-body>div{
+    margin: auto;
+}
+
+#newAssignmentBtn{
+    margin-top: 10px;
 }
