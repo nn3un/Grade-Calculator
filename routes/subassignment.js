@@ -52,6 +52,7 @@ router.put("/:subassignmentId", middleware.checkCorrectUser, function(req, res) 
                 else{
                     foundCourse.currentGrade = req.body.currentGrade;
                     foundCourse.save();
+                    updated.url = "/user/" + req.params.userid + "/course/" + req.params.courseid + "?_method=PUT";
                     res.json(updated);
                     
                 }
@@ -76,7 +77,7 @@ router.delete("/:subassignmentId", middleware.checkCorrectUser, function(req, re
                 }
                 else {
                     console.log(updated);
-                    
+                    deletedSub.url = "/user/" + req.params.userid + "/course/" + req.params.courseid + "?_method=PUT";
                     res.json(deletedSub);
                 }
             });

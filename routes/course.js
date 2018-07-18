@@ -20,8 +20,8 @@ router.get("/new", middleware.checkCorrectUser, function(req, res) {
 
 //CREATE new course route
 router.post("/", middleware.checkCorrectUser, function(req, res) {
+    console.log(req.body);
     var temp = [];
-    var currentGrade = 0;
     if (req.body.assignments !== null) {
         var assignments = Array.prototype.slice.call(req.body.assignments);
         assignments.forEach(function(assignmentId) {
@@ -32,7 +32,6 @@ router.post("/", middleware.checkCorrectUser, function(req, res) {
                 }
                 else {
                     temp.push(foundAssignment);
-                    currentGrade += parseFloat(foundAssignment.weight);
                 }
             });
         });
@@ -50,7 +49,6 @@ router.post("/", middleware.checkCorrectUser, function(req, res) {
                 }
                 else {
                     newCourse.student = req.user._id;
-                    newCourse.currentGrade = currentGrade;
                     newCourse.Assignments = temp;
                     newCourse.save();
                     foundUser.courses.push(newCourse);

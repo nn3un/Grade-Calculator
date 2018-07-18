@@ -8,15 +8,15 @@ function reCalculateGrade(tbody, weight, newAchieved, newTotal){
     var rows = tbody.find("tr");
     for(var i = 0; i < rows.length; i++){
         if(!$(rows[i]).hasClass("newSubassignmentRow")){
-           var achievedNum = parseFloat($(rows[i]).find("td.achieved").first().text(), 10);
+           var achievedNum = parseFloat($(rows[i]).find("td.achieved").first().text());
             achieved += achievedNum;
-            var totalNum = parseFloat($(rows[i]).find("td.total").first().text(), 10);
+            var totalNum = parseFloat($(rows[i]).find("td.total").first().text());
             total += totalNum; 
         }
     }
-    var grade = (achieved*weight/total).toFixed(3);
+    var grade = (achieved*weight/total);
     if(isNaN(grade)){
-        grade = weight.toFixed(3);
+        grade = weight;
     }
     return grade;
 }
@@ -33,10 +33,18 @@ $(document).ready(function(){
             achieved = 0;
         }
         var gradeClass = $(tables[i]).children("thead").first().find(".grade").first();
-        gradeClass.text(achieved);
+        gradeClass.text(achieved.toFixed(3));
         currentGrade += parseFloat(achieved);
     }
     $('#currentCourseGrade').text(currentGrade.toFixed(3));
+    $.ajax({
+        url: window.location.href+"?_method=PUT",
+        data: "course%5BcurrentGrade%5D=" + currentGrade,
+        type: "PUT",
+        success: function(data){
+            console.log('success');
+        }
+    });
 });
 
 
@@ -59,7 +67,6 @@ $("body").on("submit", ".newSubassignmentForm", function(e){
     var gradeClass = $(this).siblings(".subassignmentTable").children("thead").first().find(".grade").first();
     var subassignment = $(this).serialize();
     var actionUrl = $(this).attr("action");
-    var newSubassignmentForm = $(this);
     $.post(actionUrl, subassignment, function(data){
         
         var SubassignmentPutUrl = actionUrl+data._id;
@@ -79,7 +86,7 @@ $("body").on("submit", ".newSubassignmentForm", function(e){
         var oldGrade = parseFloat(gradeClass.text());
         var oldCourseGrade = parseFloat($("#currentCourseGrade").text());
         var newCourseGrade = oldCourseGrade - oldGrade + newGrade;
-        gradeClass.text(newGrade);
+        gradeClass.text(newGrade.toFixed(3));
         $("#currentCourseGrade").text(newCourseGrade.toFixed(3));
         newSubassignmentRow.hide();
             $.ajax({
@@ -89,7 +96,7 @@ $("body").on("submit", ".newSubassignmentForm", function(e){
                 success: function(data){
                     console.log('success');
                 }
-        }
+            }
     );
 });
 });
@@ -119,20 +126,11 @@ $('body').on("click", ".editBtn", function(){
 $("body").on("submit", ".editSubassignmentForm", function(e){
     e.preventDefault();
     var tr = $(this).parent().parent();
-    var tbody = tr.parent();
-    var weight = parseInt(tbody.siblings("thead").first().find(".weight").first().text(), 10);
-    var gradeClass = tbody.siblings("thead").first().find(".grade").first();
-    var newGrade = parseFloat(reCalculateGrade(tbody, weight), 10);
-    var oldGrade = parseFloat(gradeClass.text());
-    var oldCourseGrade = parseFloat($("#currentCourseGrade").text(), 10);
-    var newCourseGrade = oldCourseGrade - oldGrade + newGrade;
-    
     var actionUrl = $(this).attr("action");
     var subassignment = $(this).serialize();
-    var dataToSend = subassignment + "&currentGrade=" + newCourseGrade; 
     $.ajax({
         url: actionUrl,
-        data: dataToSend,
+        data: subassignment,
         type: "PUT",
         success: function(data){
             tr.html(
@@ -149,12 +147,23 @@ $("body").on("submit", ".editSubassignmentForm", function(e){
                 </td>
             `
             );
-            var newGrade = parseFloat(reCalculateGrade(tbody, weight), 10);
-            var oldGrade = parseFloat(gradeClass.text(), 10);
-            gradeClass.text(newGrade.toFixed(3));
-            var oldCourseGrade = parseFloat($("#currentCourseGrade").text(), 10);
+            var tbody = tr.parent();
+            var weight = parseFloat(tbody.siblings("thead").first().find(".weight").first().text(), 10);
+            var gradeClass = tbody.siblings("thead").first().find(".grade").first();
+            var newGrade = parseFloat(reCalculateGrade(tbody, weight, 0, 0));
+            var oldGrade = parseFloat(gradeClass.text());
+            var oldCourseGrade = parseFloat($("#currentCourseGrade").text());
             var newCourseGrade = oldCourseGrade - oldGrade + newGrade;
+            gradeClass.text(newGrade.toFixed(3));
             $("#currentCourseGrade").text(newCourseGrade.toFixed(3));
+            $.ajax({
+                url: data.url,
+                data: "course%5BcurrentGrade%5D=" + newCourseGrade,
+                type: "PUT",
+                success: function(data){
+                    console.log('success');
+                }
+            });
         }
         });
 });
@@ -176,11 +185,19 @@ $('body').on('submit', ".deleteBtn", function(e){
         success: function(data){
             this.deletedItem.remove();
             var newGrade = parseFloat(reCalculateGrade(tbody, weight, 0, 0));
-            var oldGrade = parseFloat(gradeClass.text(), 10);
+            var oldGrade = parseFloat(gradeClass.text());
             gradeClass.text(newGrade.toFixed(3));
-            var oldCourseGrade = parseFloat($("#currentCourseGrade").text(), 10);
+            var oldCourseGrade = parseFloat($("#currentCourseGrade").text());
             var newCourseGrade = oldCourseGrade - oldGrade + newGrade;
             $("#currentCourseGrade").text(newCourseGrade.toFixed(3));
+            $.ajax({
+                url: data.url,
+                data: "course%5BcurrentGrade%5D=" + newCourseGrade,
+                type: "PUT",
+                success: function(data){
+                    console.log('success');
+                }
+            });
         }
     }
     );

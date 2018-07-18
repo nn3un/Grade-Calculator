@@ -13,13 +13,18 @@
         <h4>Current Assignments</h4>
         <ul id="assignment-list" class="list-group">
         </ul>
-        <div class="form-group border rounded p-3">
+        <div class='list-group-item text-weight-bold bg-light'>
+            <label for="totalWeight" class="font-weight-bold">Total Weight: </label>
+            <input type="text" id="totalWeight" value="0" name="course[currentGrade]" form="courseForm" readonly>%
+        </div>
+        <h4 class="pt-3">Add new assignment</h4>
+        <div class="form-group border rounded p-3 bg-light">
             <label for="name">Assignment Name: </label><input id="name" class="newFormElement form-control" type='text' name='assignment[name]' placeholder='Homework' form = "assignmentForm">
             <label for="weight">Assignment Weight: </label><input type='text' id = "weight" class="newFormElement form-control" name='assignment[weight]' placeholder='weight in percent' form = "assignmentForm">
-            <button id="newAssignmentBtn" class=" btn btn-secondary" form="assignmentForm">Add new assignment</button>
+            <button id="newAssignmentBtn" class=" btn btn-outline-dark iconButton" form="assignmentForm"><i class="fas fa-plus-square fa-2x"></i></button>
         </div>
         
-        <button class="btn btn-secondary" form = "courseForm">Add</button> 
+        <button class="btn btn-secondary w-100 mb-3" form ="courseForm">Add Course</button> 
     </div>
 
 <script src="/scripts/ajaxNew.js"></script>

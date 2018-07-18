@@ -1,4 +1,17 @@
 /* global $ */
+
+//Updates the total weight field
+
+function updateTotalWeight() {
+    var assignmentListItems = $('#assignment-list').find('.assignmentListItem').toArray();
+    var totalWeight = 0;
+    assignmentListItems.forEach(function(assignmentListItem){
+        var weight = parseFloat($(assignmentListItem).find('.weight').first().val());
+        totalWeight += weight;
+    });
+    $("#totalWeight").val(totalWeight);
+}
+
 var assignmentIds = [];
 
 $("#assignmentForm").submit(function(e){
@@ -6,20 +19,18 @@ $("#assignmentForm").submit(function(e){
     var assignment = $(this).serialize();
     $.post("./assignment", assignment, function(data){
         assignmentIds.push(data._id);
-        var i = $("#assignment-list li").length;
         $("#assignment-list").append
         (
             `
-            <li class="assignmentListItem list-group-item">
+            <li class="assignmentListItem list-group-item bg-light">
                 <form class="editForm" action="./assignment/${data._id}?_method=PUT" method="POST">
-                    <label for="name">Name: </label>
-                    <input value=${data.name} type='text' name='assignment[name]' id="name">
-                    <label for="weight">Weight: </label>
-                    <input value=${data.weight} type='text' name='assignment[weight]' id="weight">
-                    <button class="btn btn-outline-dark iconButton"><i class="fas fa-check"></i></button>
+                    <label for="name" class="font-weight-bold">Name: </label>
+                    <input value=${data.name} type='text' name='assignment[name]' id="name" disabled>
+                    <label for="weight" class="font-weight-bold">Weight: </label>
+                    <input class= "weight" value=${data.weight} type='text' name='assignment[weight]' id="weight" disabled>
+                    <button class="updateAssignmentBtn btn btn-outline-dark iconButton"><i class="fas fa-check"></i></button>
                 </form>
-                <p>Name: ${data.name} Weight: ${data.weight}</p>
-                <button class="editButton iconButton btn btn-outline-dark"><i class="fas fa-edit"></i></button>
+                <button style="display:inline" class="editButton iconButton btn btn-outline-dark"><i class="fas fa-edit"></i></button>
                 <form style="display:inline" class="deleteForm" action="./assignment/${data._id}?_method=DELETE" method="POST">
                     <button class="btn btn-outline-dark iconButton"><i class="fas fa-trash"></i></button>
                 </form>
@@ -27,13 +38,18 @@ $("#assignmentForm").submit(function(e){
             `
         );
         $(".form-group").find(".newFormElement").val("");
+        updateTotalWeight();
     });
 });
 
 
 $(document).ready(function() {
     $("#assignment-list").on('click', '.editButton', function() {
-        $(this).siblings('.editForm').toggle();
+        //when the edit button is clicked the inputs are enabled, the update button shows up, and the edit and delete button disappear
+        $(this).siblings('.editForm').find("input").prop('disabled', false);
+        $(this).siblings('.editForm').find(".updateAssignmentBtn").show();
+        $(this).hide();
+        $(this).siblings('.deleteForm').hide();
     });
     
     $("#assignment-list").on('submit', '.editForm', function(e){
@@ -47,29 +63,27 @@ $(document).ready(function() {
             data: assignment,
             originialItem: $originialItem,
             success: function(data){
-                var i = this.originialItem.index();
                 this.originialItem.html(
                     `
-                    <li class="assignmentListItem list-group-item">
                         <form class="editForm" action="./assignment/${data._id}" method="POST">
-                            <label for="name">Name: </label>
-                            <input value=${data.name} type='text' name='assignment[name]' id="name">
-                            <label for="weight">Weight: </label>
-                            <input value=${data.weight} type='text' name='assignment[weight]' id="weight">
-                            <button class="btn btn-outline-dark iconButton"><i class="fas fa-check"></i></button>
+                            <label class="font-weight-bold" for="name">Name: </label>
+                            <input value=${data.name} type='text' name='assignment[name]' id="name" disabled>
+                            <label class="font-weight-bold" for="weight">Weight: </label>
+                            <input class="weight" value=${data.weight} type='text' name='assignment[weight]' id="weight" disabled>
+                            <button class="updateAssignmentBtn btn btn-outline-dark iconButton"><i class="fas fa-check"></i></button>
                         </form>
-                        <p>Name: ${data.name} Weight: ${data.weight}</p>
-                        <button class="editButton btn btn-outline-dark iconButton"><i class="fas fa-edit"></i></button>
+                        <button style="display:inline" class="editButton btn btn-outline-dark iconButton"><i class="fas fa-edit"></i></button>
                         <form style="display:inline" class="deleteForm" action="./assignment/${data._id}?_method=DELETE" method="POST">
                             <button class="btn btn-outline-dark iconButton"><i class="fas fa-trash"></i></button>
                         </form>
-                    </li>
                     `
                 );
                 $(this).toggle();
             }
             
+            
         });
+        updateTotalWeight();
     });
     
     $("#assignment-list").on('submit', '.deleteForm', function(e){
@@ -86,6 +100,7 @@ $(document).ready(function() {
                 var i = this.deletedItem.index();
                 assignmentIds.splice(i);
                 this.deletedItem.remove();
+                updateTotalWeight();
             }
         });
     });

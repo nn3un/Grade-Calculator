@@ -15,9 +15,6 @@
 .subassignmentTable th:nth-of-type(4) {width:15% ;}
 .subassignmentTable th:nth-of-type(5) {width:25% ;}
 
-.editForm{
-    display: none;
-}
 .newSubassignmentForm{
     display: none;
 }
@@ -120,4 +117,15 @@ td { position: relative; }
 
 #newAssignmentBtn{
     margin-top: 10px;
+}
+
+/*ajax new */
+.updateAssignmentBtn{
+    display: none;
+}
+
+input[type="text"]:disabled
+{
+    background-color: #f7fbff;
+    color: black;
 }
