@@ -23,7 +23,7 @@ $("#assignmentForm").submit(function(e){
         (
             `
             <li class="assignmentListItem list-group-item bg-light">
-                <form class="editForm" action="./assignment/${data._id}?_method=PUT" method="POST">
+                <form class="editForm" action="${data.assignmentUrl}?_method=PUT" method="POST">
                     <label for="name" class="font-weight-bold">Name: </label>
                     <input value=${data.name} type='text' name='assignment[name]' id="name" disabled>
                     <label for="weight" class="font-weight-bold">Weight: </label>
@@ -65,7 +65,7 @@ $(document).ready(function() {
             success: function(data){
                 this.originialItem.html(
                     `
-                        <form class="editForm" action="./assignment/${data._id}" method="POST">
+                        <form class="editForm" action="${data.assignmentUrl}?_method=PUT" method="POST">
                             <label class="font-weight-bold" for="name">Name: </label>
                             <input value=${data.name} type='text' name='assignment[name]' id="name" disabled>
                             <label class="font-weight-bold" for="weight">Weight: </label>
@@ -73,7 +73,7 @@ $(document).ready(function() {
                             <button class="updateAssignmentBtn btn btn-outline-dark iconButton"><i class="fas fa-check"></i></button>
                         </form>
                         <button style="display:inline" class="editButton btn btn-outline-dark iconButton"><i class="fas fa-edit"></i></button>
-                        <form style="display:inline" class="deleteForm" action="./assignment/${data._id}?_method=DELETE" method="POST">
+                        <form style="display:inline" class="deleteForm" action="${data.assignmentUrl}?_method=DELETE" method="POST">
                             <button class="btn btn-outline-dark iconButton"><i class="fas fa-trash"></i></button>
                         </form>
                     `

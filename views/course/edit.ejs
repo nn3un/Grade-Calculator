@@ -1,47 +1,59 @@
 <% include ../partials/header %>
-<h1>Edit course template</h1>
 
-<!-- The form that's going to handle the course update -->
-<% var coursePutURL = ("/user/"+ course.student._id + "/course/" + course._id + "?_method=PUT") %>
-<form method = "POST" id = "courseForm" action = <%=coursePutURL%> > </form>
-
-<!-- Name of the course -->
-<input type = "text" value = "<%= course.name %>" name = "course[name]" placeholder = "name, i.e. CS2150" form = "courseForm"><br>
-
-<!-- The form that's going to handle new assignment creation -->
-<% var assignmentPostURL = ("/user/"+ course.student._id + "/course/" + course._id + "/assignment/") %>
-<form method="POST"  id="assignmentForm" action = <%=assignmentPostURL%> >
-    <label for="name">Name: </label><input id="name" class="newFormElement" type='text' name='assignment[name]' placeholder='AssignmentName i.e homework'>
-    <label for="weight">Weight: </label><input type='text' id = "weight" class="newFormElement" name='assignment[weight]' placeholder='weight in percent'>
-    <button id="newAssignmentBtn">Add new Assignment</button>
-</form>
-
-<!-- List of assignments alread added-->
-<ul id="assignment-list">
+<div style="width:50%; margin: auto">
+    <h1>Edit Course Template</h1>
     
-    <% course.Assignments.forEach(function(assignment){ %>
-        <li class="assignmentListItem">
-            
-            <!-- The edit assignment form that shows up when you press the edit button -->
-            <% var assignmentPutURL = ("/user/"+ course.student._id + "/course/" + course._id + "/assignment/" + assignment._id + "?_method=PUT") %>
-            <form class="editForm" action="<%= assignmentPutURL %>" method="POST">
-                <label for="name">Name: </label>
-                <input value= "<%= assignment.name %>" type='text' name='assignment[name]' id="name">
-                <label for="weight">Weight: </label>
-                <input value= "<%= assignment.weight %>" type='text' name='assignment[weight]' id="weight">
-                <button>Update</button>
-            </form>
-            
-            <!-- Course Information, edit assignment and delete assignment button -->
-            <p>Name: <%= assignment.name %> Weight: <%= assignment.weight %></p>
-            <button class="editButton">Edit</button>
-            <% var assignmentDeleteURL = ("/user/"+ course.student._id + "/course/" + course._id + "/assignment/" + assignment._id + "?_method=DELETE") %>
-            <form class="deleteForm" action="<%= assignmentDeleteURL %>" method="POST">
-                <button>Delete</button>
-            </form>
-        </li>
-    <% }) %>
-</ul>
-<button form = "courseForm">Update</button>
+    <!-- The form that's going to handle the course update -->
+    <% var coursePutURL = ("/user/"+ course.student._id + "/course/" + course._id + "?_method=PUT") %>
+    <form method = "POST" id = "courseForm" action = <%=coursePutURL%> > </form>
+    
+    <!-- The name of the course -->
+    <div class="form-group">
+        <label for="courseName">Name: </label>
+        <input type = "text" class="form-control" id="courseName" name = "course[name]" value="<%= course.name %>" form = "courseForm"><br>
+    </div>
+    
+     <!-- List of assignments alread added-->
+    <h4>Current Assignments</h4>
+    <ul id="assignment-list" class="list-group">
+        <% course.Assignments.forEach(function(assignment){ %>
+            <li class="assignmentListItem list-group-item bg-light">
+                <% var assignmentPutURL = ("/user/"+ course.student._id + "/course/" + course._id + "/assignment/" + assignment._id + "?_method=PUT") %>
+                <form class="editForm" action="<%=assignmentPutURL%>" method="POST">
+                    <label for="name" class="font-weight-bold">Name: </label>
+                    <input value="<%= assignment.name %>" type='text' name='assignment[name]' id="name" disabled>
+                    <label for="weight" class="font-weight-bold">Weight: </label>
+                    <input class= "weight" value="<%= assignment.weight %>" type='text' name='assignment[weight]' id="weight" disabled>
+                    <button class="updateAssignmentBtn btn btn-outline-dark iconButton"><i class="fas fa-check"></i></button>
+                </form>
+                <button style="display:inline" class="editButton iconButton btn btn-outline-dark"><i class="fas fa-edit"></i></button>
+                <% var assignmentDeleteURL = ("/user/"+ course.student._id + "/course/" + course._id + "/assignment/" + assignment._id + "?_method=DELETE") %>
+                <form style="display:inline" class="deleteForm" action="<%= assignmentDeleteURL %>" method="POST">
+                    <button class="btn btn-outline-dark iconButton"><i class="fas fa-trash"></i></button>
+                </form>
+            </li>
+        <% }) %>
+    </ul>
+    
+    <div class='list-group-item text-weight-bold bg-light'>
+        <label for="totalWeight" class="font-weight-bold">Total Weight: </label>
+        <input type="text" id="totalWeight" value="0" readonly>%
+    </div>
+    
+    <h4 class="pt-3">Add new assignment</h4>
+    <div class="form-group border rounded p-3 bg-light">
+        <% var assignmentPostURL = ("/user/"+ course.student._id + "/course/" + course._id + "/assignment/") %>
+        <form method="POST"  id="assignmentForm" action = <%=assignmentPostURL%> >
+            <label for="name">Assignment Name: </label><input id="name" class="newFormElement form-control" type='text' name='assignment[name]' placeholder='Homework' >
+            <label for="weight">Assignment Weight: </label><input type='text' id = "weight" class="newFormElement form-control" name='assignment[weight]' placeholder='weight in percent' >
+            <button id="newAssignmentBtn" class=" btn btn-outline-dark iconButton"><i class="fas fa-plus-square fa-2x"></i></button>
+        </form>
+    </div>
+    <button class="btn btn-secondary w-100 mb-3" form ="courseForm">Update</button>
+</div>
+
+
+
+
 <script src="/scripts/ajaxEdit.js"></script>
 <% include ../partials/footer %>
