@@ -6,9 +6,9 @@
 <% course.Assignments.forEach(function(assignment){%>
     <div class="assignmentDiv col-lg-9 col-md-10 col-sm-12">
         <!-- For each assignment create a table that displays the subassignments -->
-        <table class=" table-bordered subassignmentTable table">
+        <table class=" table-bordered table-light subassignmentTable table">
             <!-- The heading with the assignment information -->
-            <thead class="thead-dark">
+            <thead>
                 <tr>
                     <th class="assignmentName"> <%=assignment.name%> </th> 
                     <th><input class = "grade" value="<%=assignment.grade%>"></th> 

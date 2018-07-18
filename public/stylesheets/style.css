@@ -8,6 +8,10 @@
     margin: 10px 0;
 }
 
+thead{
+    background-color: #5173ad;
+    color: white;
+}
 
 .subassignmentTable th:nth-of-type(1) {width:40%;}
 .subassignmentTable th:nth-of-type(2) {width:15% ;}
@@ -23,12 +27,16 @@
     background-color: #d8e5f3;
 }
 
+/*linear-gradient(to bottom, #232526, #32393b, #424f4f, #546563, #687c75)*/
 #welcome{
-    background-image: linear-gradient(to bottom, #232526, #32393b, #424f4f, #546563, #687c75);
+    background-image: url(https://cdn.dribbble.com/users/7032/screenshots/1168949/calculator.png);
     height: 100vh;
     text-align: center;
     position: relative;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
+
 .navbar-light .navbar-nav .nav-link.disabled {
     color: white;
 }
@@ -46,7 +54,7 @@
 }
 
 nav{
-    background-image: linear-gradient(to bottom, #232526, #32393b, #424f4f, #546563, #687c75);
+    background: linear-gradient(to bottom, #1c3b70, #cbd0d8); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
     color: white;
 }
 
@@ -60,7 +68,7 @@ nav{
 }
 
 .newSubassignment{
-    background-color: #cceeff;
+    background-color: #adffde;
 }
 
 
@@ -87,7 +95,10 @@ td { position: relative; }
     display: none;
 }
 
-.subassignmentTable>input{
+td>input{
+    width: 100%;
+}
+th>input{
     width: 100%;
 }
 

@@ -20,7 +20,7 @@ router.post("/register", function(req, res){
         }
         passport.authenticate("local")(req, res, function(){
             req.flash("success", "Sign up successful");
-            res.redirect("/");
+            res.redirect("/user/"+user._id);
         });
     });
 });

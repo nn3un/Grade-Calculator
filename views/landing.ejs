@@ -17,15 +17,25 @@
   integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
   crossorigin="anonymous"></script>
     <body>
-        <h2><%=error%></h2>
-        <h2><%=success%></h2>
-<div id="welcome">
-    <div id="welcome-text">
-        <h1>Welcome to Grade Calculator</h1>
-        <h2> View your current grade and create if/then situations</h2>
-        <a href = "/login" class="btn btn-light landing-btn">Login</a>
-        <a href = "/register" class="btn btn-light landing-btn">Register</a>
+    <div id="welcome">
+        <div class="container">
+            <% if (success && success.length>0){ %>
+            <div class="alert alert-light pb-0" role="alert">
+                <p><%= success%></p>
+            </div>
+            <% } %>
+            <% if (error && error.length>0){ %>
+            <div class="alert alert-light pb-0" role="alert">
+                <p><%= error%></p>
+            </div>
+            <% } %>
+        </div>
+        <div id="welcome-text">
+            <h1>Welcome to Grade Calculator</h1>
+            <h2> View your current grade and create if/then situations</h2>
+            <a href = "/login" class="btn btn-light landing-btn">Login</a>
+            <a href = "/register" class="btn btn-light landing-btn">Register</a>
+        </div>
     </div>
-</div>
 </body>
 </html>

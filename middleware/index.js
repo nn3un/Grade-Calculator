@@ -2,8 +2,6 @@ var User = require("../models/user.js");
 
 module.exports = {
     checkCorrectUser: function(req, res, next){
-        next();
-        /*
         if(req.isAuthenticated()){
             if (req.params.userid == req.user._id){
                 next();
@@ -15,6 +13,5 @@ module.exports = {
         else{
             res.redirect("/login");
         }
-        */
     }
-}
+};

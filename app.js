@@ -15,8 +15,9 @@ var indexRoutes = require("./routes/index"),
     assignmentRoutes = require("./routes/assignment"),
     subassignmentRoutes = require("./routes/subassignment");
     
+var url = process.env.DATABASEURL || "mongodb://localhost/gradeCalc1";
+mongoose.connect(url);
 
-mongoose.connect("mongodb://localhost/gradeCalc1");
 app.set("view engine", "ejs");
 app.use(methodOverride('_method'));
 app.use(bodyparser.urlencoded({extended: true}));

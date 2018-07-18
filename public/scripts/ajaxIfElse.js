@@ -61,7 +61,7 @@ $(document).ready(function() {
         gradeClass.val(achieved);
         currentGrade += parseFloat(achieved);
     }
-    $('#currentCourseGrade').text(currentGrade);
+    $('#currentCourseGrade').text(currentGrade.toFixed(3));
 });
 
 $(document).on('change', 'input', function(){
