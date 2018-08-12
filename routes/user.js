@@ -4,6 +4,7 @@ var passport = require("passport");
 var User = require("../models/user");
 var middleware =require("../middleware");
 
+//checks if legitimate user is signed in
 router.get("/", middleware.checkCorrectUser, function(req, res){
     User.findById(req.params.userid).populate('courses').exec(function(err, foundUser){
         if (err){

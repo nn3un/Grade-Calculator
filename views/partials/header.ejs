@@ -4,20 +4,28 @@
         <title>
             Grade-Calculator
         </title>
+        <!-- Font awesome -->
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
-        <link href="https://fonts.googleapis.com/css?family=Cairo:400,700" rel="stylesheet">
+        <!-- Google Fonts -->
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+        <!-- Bootstrap -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-        <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+        <!-- Jquery -->
+        <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <!-- Stylesheet -->
         <link rel="stylesheet" href="/stylesheets/style.css">
     </head>
+    
+    
     <body>
+        <!-- The navbar -->
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container-fluid">
+                <!-- If there's a user show the user's home page link -->
                 <div>
                     <ul class="navbar-nav mr-auto">
                         <% if(currentUser) {%>
-                        <% console.log(currentUser)%>
                             <li class="nav-item"><a class="nav-link" href="/user/<%=currentUser._id%>" >Home</a></li>
                         <% }%>
                     </ul>
@@ -25,18 +33,22 @@
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
+                <!-- If there's a user than show the Logout button, otherwise show the login and register button  -->
                 <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
                     <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
                         <% if(currentUser) {%>
                             <li class="nav-item nav-link disabled">Signed in as <%= currentUser.username %></li>
                             <li class="nav-item"><a class="nav-link" href="/logout">Logout</a></li>
                         <% } else {%> 
+                            <li class="nav-item"><a class="nav-link" href="/login">Login</a></li>
                             <li class="nav-item"><a class="nav-link" href="/register">Register</a></li>
                         <% } %>
                     </ul>
                 </div>
             </div>
         </nav>
+        
+        <!-- Alerts -->
         <div class="container mt-1">
             <% if (success && success.length>0){ %>
             <div class="alert alert-light pb-0" role="alert">
@@ -50,4 +62,5 @@
             <% } %>
         </div>
         
+        <!-- Everythin else will be in a container -->
         <div class="container">

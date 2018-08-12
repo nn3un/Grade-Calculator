@@ -40,43 +40,32 @@ router.post("/", middleware.checkCorrectUser, function(req, res) {
 router.put("/:subassignmentId", middleware.checkCorrectUser, function(req, res) {
     Subassignment.findByIdAndUpdate(req.params.subassignmentId, req.body.subassignment, { new: true }, function(err, updated) {
         if (err) {
+            //if failed go back to course show page
             req.flash("error", "Error updating");
-            res.redirect("/user/" + req.params.userid + "/course/new");
+            res.redirect("/user/" + req.params.userid + "/course/" + req.params.courseid);
         }
         else {
-            Course.findById(req.params.courseid, function(err, foundCourse){
-                if(err){
-                    req.flash("error", "Couldn't find Parent Course");
-                    res.redirect("/user/" + req.params.userid);
-                }
-                else{
-                    foundCourse.currentGrade = req.body.currentGrade;
-                    foundCourse.save();
-                    updated.url = "/user/" + req.params.userid + "/course/" + req.params.courseid + "?_method=PUT";
-                    res.json(updated);
-                    
-                }
-            });
+            updated.url = "/user/" + req.params.userid + "/course/" + req.params.courseid + "?_method=PUT";
+            res.json(updated);
         }
     });
 });
 
-//DELETE courseless assignment route
+//DELETE subassignment route
 router.delete("/:subassignmentId", middleware.checkCorrectUser, function(req, res) {
     Subassignment.findByIdAndRemove(req.params.subassignmentId, function(err, deletedSub) {
         if (err) {
             //if error stay at current page
             req.flash("error", "Error Deleting");
-            //TODO: better redirection
             res.redirect("/user/" + req.params.userid + "/course/" + req.params.courseid + "/edit");
         }
         else {
+            //Remove subassignment from assignment's list
             Assignment.findByIdAndUpdate(req.params.assignmentid, { $pull: { subassignments: deletedSub._id } , new: true},  function(err, updated) {
                 if (err) {
                     console.log(err);
                 }
                 else {
-                    console.log(updated);
                     deletedSub.url = "/user/" + req.params.userid + "/course/" + req.params.courseid + "?_method=PUT";
                     res.json(deletedSub);
                 }

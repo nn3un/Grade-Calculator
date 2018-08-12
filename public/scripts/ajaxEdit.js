@@ -30,7 +30,7 @@ $("#assignmentForm").submit(function(e){
                     <label for="name" class="font-weight-bold">Name: </label>
                     <input value=${data.name} type='text' name='assignment[name]' id="name" disabled>
                     <label for="weight" class="font-weight-bold">Weight: </label>
-                    <input class= "weight" value=${data.weight} type='text' name='assignment[weight]' id="weight" disabled>
+                    <input class= "weight" value=${data.weight} type='number' name='assignment[weight]' id="weight" disabled required>
                     <button class="updateAssignmentBtn btn btn-outline-dark iconButton"><i class="fas fa-check"></i></button>
                 </form>
                 <button style="display:inline" class="editButton iconButton btn btn-outline-dark"><i class="fas fa-edit"></i></button>
@@ -55,11 +55,13 @@ $(document).ready(function() {
         $(this).siblings('.deleteForm').hide();
     });
     
+    //Updates the assignment
     $("#assignment-list").on('submit', '.editForm', function(e){
         e.preventDefault();
         var assignment = $(this).serialize();
         var actionUrl = $(this).attr('action');
         var $originialItem = $(this).parent(".assignmentListItem");
+        //PUT to the assignment route
         $.ajax({
             url: actionUrl,
             type: "PUT",
@@ -70,9 +72,9 @@ $(document).ready(function() {
                     `
                     <form class="editForm" action="${data.assignmentUrl}?_method=PUT" method="POST">
                         <label class="font-weight-bold" for="name">Name: </label>
-                        <input value=${data.name} type='text' name='assignment[name]' id="name" disabled>
+                        <input value=${data.name} type='text' name='assignment[name]' id="name" disabled required>
                         <label class="font-weight-bold" for="weight">Weight: </label>
-                        <input class="weight" value=${data.weight} type='text' name='assignment[weight]' id="weight" disabled>
+                        <input class="weight" value=${data.weight} type='number' name='assignment[weight]' id="weight" disabled require>
                         <button class="updateAssignmentBtn btn btn-outline-dark iconButton"><i class="fas fa-check"></i></button>
                     </form>
                     <button style="display:inline" class="editButton btn btn-outline-dark iconButton"><i class="fas fa-edit"></i></button>
@@ -86,11 +88,13 @@ $(document).ready(function() {
         updateTotalWeight();
     });
     
+    //Delete the assignment
     $("#assignment-list").on('submit', '.deleteForm', function(e){
         e.preventDefault();
         var assignment = $(this).serialize();
         var actionUrl = $(this).attr('action');
         var $deletedItem = $(this).parent(".assignmentListItem");
+        //DELETE to the assignment route
         $.ajax({
             url: actionUrl,
             type: "DELETE",

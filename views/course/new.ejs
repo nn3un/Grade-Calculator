@@ -2,15 +2,17 @@
 
 <div style="width:50%; margin: auto">
     <h1 >Add New Course</h1>
+    <!-- Declaring the course POST form in advance -->
     <% var coursePostURL = ("/user/"+ user._id + "/course") %>
-    <% var assignmentPostURL = ("/user/"+ user._id + "/course/assignment") %>
     <form method = "POST" id = "courseForm" action = <%=coursePostURL%> > </form>
-    <form method="POST" id="assignmentForm" action = <%=assignmentPostURL%> > </form>
     
+    <!-- Course Name div -->
     <div class="form-group">
         <label for="courseName">Name: </label>
-        <input type = "text" class="form-control" id="courseName" name = "course[name]" placeholder = "DEPT 0000" form = "courseForm"><br>
+        <input type = "text" class="form-control" id="courseName" name = "course[name]" placeholder = "DEPT 0000" form = "courseForm" required><br>
     </div>
+    
+    <!-- List of already added assignments -->
     <h4>Current Assignments</h4>
     <ul id="assignment-list" class="list-group">
     </ul>
@@ -18,17 +20,21 @@
     <!-- Shows the current total weight -->
     <div class='list-group-item text-weight-bold bg-light'>
         <label for="totalWeight" class="font-weight-bold">Total Weight: </label>
-        <input type="text" id="totalWeight" value="0" name="course[currentGrade]" form="courseForm" readonly>%
+        <input type="number" id="totalWeight" value="0" name="course[currentGrade]" form="courseForm" readonly>%
     </div>
     
-    
+    <!--The new assignment Form -->
     <h4 class="pt-3">Add new assignment</h4>
-    <div class="form-group border rounded p-3 bg-light">
-        <label for="name">Assignment Name: </label><input id="name" class="newFormElement form-control" type='text' name='assignment[name]' placeholder='Homework' form = "assignmentForm">
-        <label for="weight">Assignment Weight: </label><input type='text' id = "weight" class="newFormElement form-control" name='assignment[weight]' placeholder='weight in percent' form = "assignmentForm">
-        <button id="newAssignmentBtn" class=" btn btn-outline-dark iconButton" form="assignmentForm"><i class="fas fa-plus-square fa-2x"></i></button>
-    </div>
+    <% var assignmentPostURL = ("/user/"+ user._id + "/course/assignment") %>
+    <form method="POST" id="assignmentForm" action = <%=assignmentPostURL%> > 
+        <div class="form-group border rounded p-3 bg-light">
+            <label for="name">Assignment Name: </label><input id="name" class="newFormElement form-control" type='text' name='assignment[name]' placeholder='Homework' required>
+            <label for="weight">Assignment Weight: </label><input type='number' id = "weight" class="newFormElement form-control" name='assignment[weight]' placeholder='weight in percent' required>
+            <button id="newAssignmentBtn" class=" btn btn-outline-dark iconButton"><i class="fas fa-plus-square fa-2x"></i></button>
+        </div>
+    </form>
     
+    <!-- Add course button -->
     <button class="btn btn-secondary w-100 mb-3" form ="courseForm">Add Course</button> 
 </div>
 

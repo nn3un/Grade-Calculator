@@ -1,47 +1,51 @@
 <%include ../partials/header%>
-<h1><%=course.name%></h1>
-<h2>Current Grade: <span id="currentCourseGrade"></span>%</h2>
 
-
-<% course.Assignments.forEach(function(assignment){%>
-    <div class="assignmentDiv col-lg-9 col-md-10 col-sm-12">
-        <!-- For each assignment create a table that displays the subassignments -->
-        <table class=" table-bordered table-light subassignmentTable table">
-            <!-- The heading with the assignment information -->
-            <thead>
-                <tr>
-                    <th class="assignmentName"> <%=assignment.name%> </th> 
-                    <th><input class = "grade" value="<%=assignment.grade%>"></th> 
-                    <th> / </th>
-                    <th class="weight"> <%=assignment.weight%> </th>
-                    <th><button class="newSubassignmentBtn btn btn-outline-light iconButton"><i class="fas fa-plus"></i></button></th>
-                </tr>
-            </thead>
-            
-            <tbody class="subassignmentBody">
-                <% assignment.subassignments.forEach(function(subassignment){ %>
-                <!-- For each subassignment display info -->
-                    <tr>
-                        <td><input class="name" value="<%= subassignment.name%>" ></td> 
-                        <td><input class="achieved" value="<%= subassignment.achieved%>" ></td> 
-                        <td> / </td>
-                        <td><input class="total" value="<%= subassignment.total%>" ></td> 
-                        <td><button class="deleteSubassignmentBtn btn btn-outline-dark iconButton"><i class="fas fa-times"></i></button></td>
-                    </tr>    
-                <% }) %> 
-                
-                <tr class="newSubassignment">
-                    <td><input type='text' class="newName"  value= "<%=assignment.name%>"> </td>
-                    <td><input type='text' class="newAchieved"> </td>
-                    <td>/</td>
-                    <td><input type='text' class='newTotal'> </td>
-                    <td><button class="addSubassignment">Add</button></td>
-                </tr>
-            </tbody>
-        </table>
-        
+<div class="w-100 mx-auto">
+    <div id="not-table" class="w-75 mx-auto pl-3">
+        <h1><%=course.name%></h1>
+        <h2>Current Grade: <span id="currentCourseGrade"></span>% (Originally <%= course.currentGrade.toFixed(3) %>%)</h2>
     </div>
-<% }) %>
+    <% course.Assignments.forEach(function(assignment){%>
+        <div class="assignmentDiv col-lg-9 col-md-10 col-sm-12 w-100 mx-auto">
+            <!-- For each assignment create a table that displays the subassignments -->
+            <table class=" table-bordered table-light subassignmentTable table">
+                <!-- The heading with the assignment information -->
+                <thead>
+                    <tr>
+                        <th class="assignmentName"> <%=assignment.name%> </th> 
+                        <th><input class = "grade" value="<%=assignment.grade%>"></th> 
+                        <th> / </th>
+                        <th class="weight"> <%=assignment.weight%> </th>
+                        <th><button class="newSubassignmentBtn btn btn-outline-light iconButton"><i class="fas fa-plus"></i></button></th>
+                    </tr>
+                </thead>
+                
+                <tbody class="subassignmentBody">
+                    <% assignment.subassignments.forEach(function(subassignment){ %>
+                    <!-- For each subassignment display info -->
+                        <tr>
+                            <td><input class="name" value="<%= subassignment.name%>" ></td> 
+                            <td><input type="number" required class="achieved" value="<%= subassignment.achieved%>" ></td> 
+                            <td> / </td>
+                            <td><input type="number" required class="total" value="<%= subassignment.total%>" ></td> 
+                            <td><button class="deleteSubassignmentBtn btn btn-outline-dark iconButton"><i class="fas fa-times"></i></button></td>
+                        </tr>    
+                    <% }) %> 
+                    
+                    <!-- The newSubassignment row -->
+                    <tr class="newSubassignment">
+                        <td><input type='text' class="newName"  value= "<%=assignment.name%>"> </td>
+                        <td><input type='number' class="newAchieved" required> </td>
+                        <td>/</td>
+                        <td><input type='number' class='newTotal' required> </td>
+                        <td><button class="addSubassignment iconButton"><i class="fas fa-plus"></i></button></td>
+                    </tr>
+                </tbody>
+            </table>
+            
+        </div>
+    <% }) %>
+</div>
 
 <script src="/scripts/ajaxIfElse.js"></script>
 <%include ../partials/footer%>

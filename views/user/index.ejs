@@ -1,19 +1,21 @@
 <% include ../partials/header %>
-
-<h1 class="display-4">Your Courses</h1>
-<% var newCourseUrl = "/user/"+user._id+"/course/new" %>
-
+<input type="text" hidden id="refresh" value="no">
+<h1 class="my-2 display-4 text-center">Your Courses</h1>
 
 <div class="row">
+    <!-- For every course show the title and a progress bar with the current grade -->
     <% user.courses.forEach(function(course){ %>
-    <div class=" card col-lg-4 col-md-6" style="display:inline">
-        <div class='card-header text-center'>
-            <a href="/user/<%=user._id%>/course/<%=course._id%>"><%=course.name %></a>
+        <div class=" card col-lg-4 col-md-6" style="display:inline">
+            <div class='card-header text-center'>
+                <a class="h2" href="/user/<%=user._id%>/course/<%=course._id%>"><%=course.name %></a>
+            </div>
+            <div class="courses card-body" data-grade=<%=course.currentGrade%>></div>
         </div>
-        <div class="courses card-body" data-grade=<%=course.currentGrade%>></div>
-    </div>
-<% }) %>
+    <% }) %>
 </div>
+
+<!-- New course link -->
+<% var newCourseUrl = "/user/"+user._id+"/course/new" %>
 <a class="btn btn-secondary" id="newCourse" href=<%=newCourseUrl%>>Add New Course</a>
 
 <script src="/scripts/radialprogress.js"></script>

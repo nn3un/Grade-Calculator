@@ -1,16 +1,102 @@
-*{
-    font-family: 'Cairo', sans-serif;
-}
-
-.subassignmentTable{
-    table-layout: fixed;
-    overflow: hidden;
-    margin: 10px 0;
+/* Apply font to every family */
+body{
+    font-family: 'Open Sans', sans-serif;
 }
 
 thead{
     background-color: #5173ad;
     color: white;
+}
+
+td { position: relative; }
+
+nav{
+    background: linear-gradient(to right, #141e30, #243b55); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    color: white;
+}
+
+.navbar-light .navbar-nav .nav-link {
+    color: white;
+}
+
+.navbar-light .navbar-nav .nav-link.disabled {
+    color: white;
+}
+
+.alert{
+    background-color: #d8e5f3;
+}
+
+
+
+/*--------------------------------landing.ejs---------------------------------*/
+.landing-btn{
+    background-color: #d8e5f3;
+}
+
+#welcome{
+    background-image: url(https://cdn.dribbble.com/users/7032/screenshots/1168949/calculator.png);
+    height: 100vh;
+    text-align: center;
+    position: relative;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+#welcome-text{
+    position: absolute;
+    bottom: 50vh;
+    right: 0px;
+    left: 0px;
+    color: white;
+}
+
+
+
+/*------------------------user/index.ejs---------------------------*/
+.courses{
+    margin: auto;
+    display: block;
+}
+.card-body>div{
+    margin: auto;
+}
+
+#newAssignmentBtn{
+    margin-top: 10px;
+}
+
+
+
+/*------------------------registser.ejs & login.ejs---------------------------*/
+#login-box{
+    width: 30%;
+}
+
+
+input[type="text"]:disabled
+{
+    background-color: #f7fbff;
+    color: black;
+}
+
+
+
+/*------------------course/new.ejs and course/edit.ejs------------------------*/
+#newCourse{
+    margin: auto;
+    margin-top: 20px;
+    display: block;
+    font-size: 30px;
+}
+
+
+
+/*--------------------course/show.ejs and course/if-else.ejs------------------*/
+.subassignmentTable{
+    table-layout: fixed;
+    overflow: hidden;
+    margin: 10px 0;
 }
 
 .subassignmentTable th:nth-of-type(1) {width:40%;}
@@ -23,57 +109,9 @@ thead{
     display: none;
 }
 
-.landing-btn{
-    background-color: #d8e5f3;
-}
-
-/*linear-gradient(to bottom, #232526, #32393b, #424f4f, #546563, #687c75)*/
-#welcome{
-    background-image: url(https://cdn.dribbble.com/users/7032/screenshots/1168949/calculator.png);
-    height: 100vh;
-    text-align: center;
-    position: relative;
-    background-repeat: no-repeat;
-    background-size: cover;
-}
-
-.navbar-light .navbar-nav .nav-link.disabled {
-    color: white;
-}
-
-#welcome-text{
-    position: absolute;
-    bottom: 50vh;
-    right: 0px;
-    left: 0px;
-    color: white;
-}
-
-#login-box{
-    width: 30%;
-}
-
-nav{
-    background: linear-gradient(to bottom, #1c3b70, #cbd0d8); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-    color: white;
-}
-
-.navbar-light .navbar-nav .nav-link {
-    color: white;
-}
-
-
-.alert{
-    background-color: #d8e5f3;
-}
-
 .newSubassignment{
     background-color: #adffde;
 }
-
-
-td { position: relative; }
-
 
 .deleted{
     text-decoration: line-through;
@@ -110,33 +148,6 @@ th>input{
     background-color: #ccff66;
 }
 
-#newCourse{
-    margin: auto;
-    margin-top: 20px;
-    display: block;
-    font-size: 30px;
-}
-
-.courses{
-    margin: auto;
-    display: block;
-}
-
-.card-body>div{
-    margin: auto;
-}
-
-#newAssignmentBtn{
-    margin-top: 10px;
-}
-
-/*ajax new */
 .updateAssignmentBtn{
     display: none;
-}
-
-input[type="text"]:disabled
-{
-    background-color: #f7fbff;
-    color: black;
 }

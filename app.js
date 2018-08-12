@@ -9,12 +9,15 @@ localStrategy=require("passport-local"),
 cookieParser = require("cookie-parser"),
 methodOverride=require("method-override");
 
+
+//The routes
 var indexRoutes = require("./routes/index"),
     userRoutes  = require("./routes/user"),
     courseRoutes= require("./routes/course"),
     assignmentRoutes = require("./routes/assignment"),
     subassignmentRoutes = require("./routes/subassignment");
     
+//Setting up mongoose
 var url = process.env.DATABASEURL || "mongodb://localhost/gradeCalc1";
 mongoose.connect(url);
 
@@ -37,6 +40,7 @@ passport.use(new localStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
+//Local variables
 app.use(function(req, res, next){
     res.locals.currentUser = req.user;
     res.locals.error = req.flash("error");
@@ -50,7 +54,6 @@ app.use("/user/:userid", userRoutes);
 app.use("/user/:userid/course", courseRoutes);
 app.use("/user/:userid/course/:courseid/assignment", assignmentRoutes);
 app.use("/user/:userid/course/:courseid/assignment/:assignmentid/subassignment", subassignmentRoutes);
-
 
 
 app.listen(process.env.PORT, process.env.IP, function(){

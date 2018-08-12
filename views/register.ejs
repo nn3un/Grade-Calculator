@@ -1,18 +1,29 @@
 <% include partials/header %>
 
-<div id="login">
-    <div id='login-box' class="mx-auto pt-5">
+<div id='login-box' class="mx-auto pt-5">
     <h1 class="text-center">Sign Up</h1>
     <form action = "/register", method = "POST">
+        
+        <!-- username field-->
         <div class="form-group">
-            <label for="username">Username: </label><input class="form-control" type = "text" name = "username">
+            <label for="username">Username: </label>
+            <input class="form-control" type = "text" name = "username">
         </div>
+        
+        <!-- password field-->
         <div class="form-group">
-            <label for="password">Password: </label><input class="form-control" type = "password" name = "password" >
+            <label for="password">Password: </label>
+            <input class="form-control" type = "password" name = "password" >
+            <small class="form-text text-muted">
+              Password must be 8-20 characters long, contain letters and numbers
+            </small>
         </div>
+        
+        <!-- Register button -->
         <div class="form-group">
-            <button class="btn btn-lg btn-default btn-block">Register</button>
+            <button class="btn btn-lg btn-secondary btn-block">Register</button>
         </div>
+        
     </form>
 </div>
 
