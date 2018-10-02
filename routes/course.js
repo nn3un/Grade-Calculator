@@ -23,13 +23,15 @@ router.post("/", middleware.checkCorrectUser, function(req, res) {
     var temp = [];
     
     //Create assignments according to the assignment ids and add them to a temp array
-    if (req.body.assignments !== null) {
+    if (req.body.assignments !== null && req.body.assignments !== undefined) {
+        console.log(req.body.assignments);
         var assignments = Array.prototype.slice.call(req.body.assignments);
+        console.log(assignments);
         assignments.forEach(function(assignmentId) {
             Assignment.findById(assignmentId, function(err, foundAssignment) {
                 if (err) {
                     req.flash("error", "couldn't find assignment");
-                    res.redirect("/new");
+                    res.redirect(".");
                 }
                 else {
                     temp.push(foundAssignment);
@@ -42,15 +44,16 @@ router.post("/", middleware.checkCorrectUser, function(req, res) {
     User.findById(req.params.userid, function(err, foundUser) {
         if (err) {
             //if user not found, go back to the form
-            req.flash("error", "Couldn't add course, please try again");
-            res.redirect("./new");
+            req.flash("error", "Couldn't find User, please try again");
+            console.log("couldn't find user")
+            res.redirect(".");
         }
         else {
             Course.create(req.body.course, function(err, newCourse) {
                 if (err) {
                     //if creattion failed go back to new
                     req.flash("error", "Couldn't add course, please try again");
-                    res.redirect("./new");
+                    res.redirect(".");
                 }
                 else {
                     //add info and redirect to user's profile page
@@ -60,7 +63,7 @@ router.post("/", middleware.checkCorrectUser, function(req, res) {
                     foundUser.courses.push(newCourse);
                     foundUser.save();
                     req.flash("success", "Added course");
-                    res.json("/user/" + foundUser.id);
+                    res.json("/user/" + foundUser._id);
                 }
             });
         }
@@ -74,7 +77,6 @@ router.get("/:courseid", middleware.checkCorrectUser, function(req, res) {
     Course.findById(req.params.courseid).populate({ path: 'Assignments', populate: { path: 'subassignments' } }).exec(function(err, foundCourse) {
         if (err) {
             req.flash("error", "Error in show route");
-            console.log(err);
             res.redirect("/user/" + req.params.userid);
         }
         else {
@@ -182,7 +184,8 @@ router.post("/assignment", middleware.checkCorrectUser, function(req, res) {
         }
         else {
             //send back info about newAssignemnt
-            res.json(newAssignment);
+            var assignmentUrl = "/user/"+ req.params.userid + "/course/assignment/" + newAssignment._id;
+            res.json({assignment: newAssignment, url: assignmentUrl});
         }
     });
 });
@@ -197,7 +200,8 @@ router.put("/assignment/:assignmentId", middleware.checkCorrectUser, function(re
         }
         else {
             //else send back information about updated assignment
-            res.json(updated);
+            var assignmentUrl = "/user/"+ req.params.userid + "/course/assignment/" + updated._id;
+            res.json({assignment: updated, url: assignmentUrl});
         }
     });
 });
@@ -209,6 +213,9 @@ router.delete("/assignment/:assignmentId", middleware.checkCorrectUser, function
             //if error go back to form
             req.flash("error", "Error Deleting");
             res.redirect("/user/" + req.params.userid + "/course/new");
+        }
+        else{
+            res.json(deleted);
         }
     });
 });

@@ -12,29 +12,29 @@ function updateTotalWeight() {
 }
 
 //An array to store the new assignment Ids
-var assignmentIds = [];
 
+var assignmentIds;
 //Creates an assignment 
 $("#assignmentForm").submit(function(e){
     e.preventDefault();
     var assignment = $(this).serialize();
     //Post to courseless assignment route
     $.post("./assignment", assignment, function(data){
-        assignmentIds.push(data._id);
+        assignmentIds.push(data.assignment._id);
         //Add the information to the list of assignments
         $("#assignment-list").append
         (
             `
             <li class="assignmentListItem list-group-item bg-light">
-                <form class="editForm" action="${data.assignmentUrl}?_method=PUT" method="POST">
+                <form class="editForm" action="${data.url}?_method=PUT" method="POST">
                     <label for="name" class="font-weight-bold">Name: </label>
-                    <input value=${data.name} type='text' name='assignment[name]' id="name" disabled required>
+                    <input value=${data.assignment.name} type='text' name='assignment[name]' id="name" disabled required>
                     <label for="weight" class="font-weight-bold">Weight: </label>
-                    <input class= "weight" value=${data.weight} type='number' name='assignment[weight]' id="weight" disabled required>
+                    <input class= "weight" value=${data.assignment.weight} type='number' name='assignment[weight]' id="weight" disabled required>
                     <button class="updateAssignmentBtn btn btn-outline-dark iconButton"><i class="fas fa-check"></i></button>
                 </form>
                 <button style="display:inline" class="editButton iconButton btn btn-outline-dark"><i class="fas fa-edit"></i></button>
-                <form style="display:inline" class="deleteForm" action="./assignment/${data._id}?_method=DELETE" method="POST">
+                <form style="display:inline" class="deleteForm" action="${data.url}?_method=DELETE" method="POST">
                     <button class="btn btn-outline-dark iconButton"><i class="fas fa-trash"></i></button>
                 </form>
             </li>
@@ -48,6 +48,7 @@ $("#assignmentForm").submit(function(e){
 
 
 $(document).ready(function() {
+    assignmentIds = [];
     //Add onclick listener for the edit button, which shows the edit form
     $("#assignment-list").on('click', '.editButton', function() {
         //when the edit button is clicked the inputs are enabled, the update button shows up, and the edit and delete button disappear
@@ -73,15 +74,15 @@ $(document).ready(function() {
                 //Change the view from edit to show
                 this.originialItem.html(
                     `
-                        <form class="editForm" action="${data.assignmentUrl}?_method=PUT" method="POST">
+                        <form class="editForm" action="${data.url}?_method=PUT" method="POST">
                             <label class="font-weight-bold" for="name">Name: </label>
-                            <input value=${data.name} type='text' name='assignment[name]' id="name" disabled required>
+                            <input value=${data.assignment.name} type='text' name='assignment[name]' id="name" disabled required>
                             <label class="font-weight-bold" for="weight">Weight: </label>
-                            <input class="weight" value=${data.weight} type='number' name='assignment[weight]' id="weight" disabled required>
+                            <input class="weight" value=${data.assignment.weight} type='number' name='assignment[weight]' id="weight" disabled required>
                             <button class="updateAssignmentBtn btn btn-outline-dark iconButton"><i class="fas fa-check"></i></button>
                         </form>
                         <button style="display:inline" class="editButton btn btn-outline-dark iconButton"><i class="fas fa-edit"></i></button>
-                        <form style="display:inline" class="deleteForm" action="${data.assignmentUrl}?_method=DELETE" method="POST">
+                        <form style="display:inline" class="deleteForm" action="${data.url}?_method=DELETE" method="POST">
                             <button class="btn btn-outline-dark iconButton"><i class="fas fa-trash"></i></button>
                         </form>
                     `
@@ -109,7 +110,7 @@ $(document).ready(function() {
             success: function(data){
                 //Remove assignment from list
                 var i = this.deletedItem.index();
-                assignmentIds.splice(i);
+                assignmentIds.splice(i, 1);
                 this.deletedItem.remove();
                 updateTotalWeight();
             }

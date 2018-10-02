@@ -26,15 +26,15 @@ $("#assignmentForm").submit(function(e){
         (
            `
             <li class="assignmentListItem list-group-item bg-light">
-                <form class="editForm" action="${data.assignmentUrl}?_method=PUT" method="POST">
+                <form class="editForm" action="${data.url}?_method=PUT" method="POST">
                     <label for="name" class="font-weight-bold">Name: </label>
-                    <input value=${data.name} type='text' name='assignment[name]' id="name" disabled>
+                    <input value=${data.assignment.name} type='text' name='assignment[name]' id="name" disabled>
                     <label for="weight" class="font-weight-bold">Weight: </label>
-                    <input class= "weight" value=${data.weight} type='number' name='assignment[weight]' id="weight" disabled required>
+                    <input class= "weight" value=${data.assignment.weight} type='number' name='assignment[weight]' id="weight" disabled required>
                     <button class="updateAssignmentBtn btn btn-outline-dark iconButton"><i class="fas fa-check"></i></button>
                 </form>
                 <button style="display:inline" class="editButton iconButton btn btn-outline-dark"><i class="fas fa-edit"></i></button>
-                <form style="display:inline" class="deleteForm" action="${data.assignmentUrl}?_method=DELETE" method="POST">
+                <form style="display:inline" class="deleteForm" action="${data.url}?_method=DELETE" method="POST">
                     <button class="btn btn-outline-dark iconButton"><i class="fas fa-trash"></i></button>
                 </form>
             </li>
@@ -70,15 +70,15 @@ $(document).ready(function() {
             success: function(data){
                 this.originialItem.html(
                     `
-                    <form class="editForm" action="${data.assignmentUrl}?_method=PUT" method="POST">
+                    <form class="editForm" action="${data.url}?_method=PUT" method="POST">
                         <label class="font-weight-bold" for="name">Name: </label>
-                        <input value=${data.name} type='text' name='assignment[name]' id="name" disabled required>
+                        <input value=${data.assignment.name} type='text' name='assignment[name]' id="name" disabled required>
                         <label class="font-weight-bold" for="weight">Weight: </label>
-                        <input class="weight" value=${data.weight} type='number' name='assignment[weight]' id="weight" disabled require>
+                        <input class="weight" value=${data.assignment.weight} type='number' name='assignment[weight]' id="weight" disabled require>
                         <button class="updateAssignmentBtn btn btn-outline-dark iconButton"><i class="fas fa-check"></i></button>
                     </form>
                     <button style="display:inline" class="editButton btn btn-outline-dark iconButton"><i class="fas fa-edit"></i></button>
-                    <form style="display:inline" class="deleteForm" action="${data.assignmentUrl}?_method=DELETE" method="POST">
+                    <form style="display:inline" class="deleteForm" action="${data.url}?_method=DELETE" method="POST">
                         <button class="btn btn-outline-dark iconButton"><i class="fas fa-trash"></i></button>
                     </form>
                     `

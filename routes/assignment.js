@@ -26,8 +26,8 @@ router.post("/", middleware.checkCorrectUser, function(req, res) {
                     foundCourse.Assignments.push(newAssignment);
                     foundCourse.save();
                     //send the course back to ajax so that they can use the information to update the view
-                    newAssignment.assignmentUrl = "/user/"+ req.params.userid + "/course/" + req.params.courseid  + "/assignment/"+newAssignment._id+"?_method=PUT";
-                    res.json(newAssignment);
+                    var assignmentUrl = "/user/"+ req.params.userid + "/course/" + req.params.courseid  + "/assignment/"+newAssignment._id+"?_method=PUT";
+                    res.json({assignment: newAssignment, url: assignmentUrl});
                 }
             });
         }
@@ -42,8 +42,8 @@ router.put("/:assignmentId", middleware.checkCorrectUser, function(req, res){
             res.redirect("/user/"+req.params.userid+"/course/new");
         }
         else{
-            updated.assignmentUrl = "/user/"+ req.params.userid + "/course/" + req.params.courseid  + "/assignment/"+updated._id+"?_method=PUT";
-            res.json(updated);
+            var assignmentUrl = "/user/"+ req.params.userid + "/course/" + req.params.courseid  + "/assignment/"+updated._id;
+            res.json({assignment: updated, url: assignmentUrl});
         }
     });
 });
