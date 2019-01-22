@@ -131,9 +131,9 @@ $('body').on("click", ".editBtn", function(){
     tr.html(
         `
         <td><input type='text' form='${subassignmentId}' name="subassignment[name]" value='${subassignmentName}'> </td>
-        <td><input type='number' form='${subassignmentId}' name="subassignment[achieved]" value='${subassignmentAchieved}' required></td>
+        <td><input type='number' step='0.01' form='${subassignmentId}' name="subassignment[achieved]" value='${subassignmentAchieved}' required></td>
         <td>/</td>
-        <td><input type='number' form='${subassignmentId}' name="subassignment[total]" value='${subassignmentTotal}' required</td>
+        <td><input type='number' step='0.01' form='${subassignmentId}' name="subassignment[total]" value='${subassignmentTotal}' required</td>
         <td><button form='${subassignmentId}' class="btn btn-outline-dark iconButton"> <i class="fas fa-check"></i></button><form id='${subassignmentId}' class="editSubassignmentForm" method="POST" action="${subassignmentPutUrl}"></form></td>
         `
         );

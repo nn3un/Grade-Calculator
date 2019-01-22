@@ -30,7 +30,7 @@ $("#assignmentForm").submit(function(e){
                     <label for="name" class="font-weight-bold">Name: </label>
                     <input value=${data.assignment.name} type='text' name='assignment[name]' id="name" disabled>
                     <label for="weight" class="font-weight-bold">Weight: </label>
-                    <input class= "weight" value=${data.assignment.weight} type='number' name='assignment[weight]' id="weight" disabled required>
+                    <input class= "weight" value=${data.assignment.weight} type='number' step='0.01' name='assignment[weight]' id="weight" disabled required>
                     <button class="updateAssignmentBtn btn btn-outline-dark iconButton"><i class="fas fa-check"></i></button>
                 </form>
                 <button style="display:inline" class="editButton iconButton btn btn-outline-dark"><i class="fas fa-edit"></i></button>
@@ -74,7 +74,7 @@ $(document).ready(function() {
                         <label class="font-weight-bold" for="name">Name: </label>
                         <input value=${data.assignment.name} type='text' name='assignment[name]' id="name" disabled required>
                         <label class="font-weight-bold" for="weight">Weight: </label>
-                        <input class="weight" value=${data.assignment.weight} type='number' name='assignment[weight]' id="weight" disabled require>
+                        <input class="weight" value=${data.assignment.weight} type='number' step='0.01' name='assignment[weight]' id="weight" disabled require>
                         <button class="updateAssignmentBtn btn btn-outline-dark iconButton"><i class="fas fa-check"></i></button>
                     </form>
                     <button style="display:inline" class="editButton btn btn-outline-dark iconButton"><i class="fas fa-edit"></i></button>

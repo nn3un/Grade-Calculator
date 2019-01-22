@@ -103,7 +103,7 @@ $(document).on("click", ".addSubassignment", function(){
             <td><input class="name" value="${name}" ></td> 
             <td><input type="text" class="achieved" value="${achieved}" required></td> 
             <td> / </td>
-            <td><input type="number" class="total" value="${total}" required></td> 
+            <td><input type='number' step='0.01' class="total" value="${total}" required></td> 
             <td><button class="deleteSubassignmentBtn btn btn-outline-dark iconButton"><i class="fas fa-times"></i></button></td>
         </tr>
         `);
@@ -170,9 +170,9 @@ $(document).on("change", ".grade", function(){
         `
         <tr class="adjusted">
             <td><input class="name" value="Adjustment Grade" ></td> 
-            <td><input type="number" class="achieved" value="${achieved}" required></td> 
+            <td><input type='number' step='0.01' class="achieved" value="${achieved}" required></td> 
             <td> / </td>
-            <td><input type="number" class="total" value='${total}' required></td> 
+            <td><input type='number' step='0.01' class="total" value='${total}' required></td> 
             <td><button class="deleteSubassignmentBtn btn btn-outline-dark iconButton"><i class='fas fa-times'></i></button></td>
         </tr>
         `
